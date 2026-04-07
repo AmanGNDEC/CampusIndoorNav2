@@ -451,16 +451,20 @@
       width: 100%;
       height: 0;
       max-height: calc(70vh - 56px - var(--safe-bottom));
-      overflow-y: auto;
+      overflow: hidden;       /* hide content AND borders when collapsed */
       border-left: none;
-      border-top: 2px solid var(--accent2);
-      border-radius: 20px 20px 0 0;
+      border-top: none;       /* no visible line when closed */
+      border-radius: 0;
       z-index: 400;
-      transition: height 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+      transition: height 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+                  border-radius 0.35s, border-top-color 0.1s;
       flex-shrink: 0;
     }
     #sidebar.mob-open {
       height: calc(70vh - 56px - var(--safe-bottom));
+      overflow-y: auto;       /* allow scroll once open */
+      border-top: 2px solid var(--accent2);  /* blue line only when open */
+      border-radius: 20px 20px 0 0;
     }
 
     /* Drawer handle indicator at top of sidebar */
