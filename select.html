@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Select Building - CampusNav</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
@@ -189,6 +189,73 @@
       10% { opacity: 0.2; }
       90% { opacity: 0.2; }
       to { transform: translateY(-100px) scale(1.5); opacity: 0; }
+    }
+
+    /* ── MOBILE RESPONSIVE ── */
+    @media (max-width: 768px) {
+      body {
+        padding: 1.5rem 1rem;
+        justify-content: flex-start;
+        padding-top: 2.5rem;
+      }
+      header {
+        margin-bottom: 28px;
+      }
+      header h1 {
+        font-size: 30px;
+        letter-spacing: -0.5px;
+      }
+      header p {
+        font-size: 14px;
+      }
+      .grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .card {
+        padding: 20px 16px;
+        border-radius: 18px;
+      }
+      .icon-wrap {
+        width: 50px;
+        height: 50px;
+        font-size: 22px;
+        margin-bottom: 14px;
+        border-radius: 12px;
+      }
+      .card h3 {
+        font-size: 18px;
+      }
+      .card p {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      body {
+        padding: 1.5rem 0.75rem;
+      }
+      header h1 {
+        font-size: 24px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .card {
+        flex-direction: row;
+        align-items: center;
+        padding: 16px;
+        gap: 14px;
+      }
+      .icon-wrap {
+        margin-bottom: 0;
+        flex-shrink: 0;
+      }
+      .card h3 {
+        font-size: 17px;
+        margin-bottom: 4px;
+      }
     }
   </style>
 </head>

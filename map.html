@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>CampusNav — Engineering Block</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -390,6 +390,134 @@
   #sidebar::-webkit-scrollbar { width: 4px; }
   #sidebar::-webkit-scrollbar-track { background: transparent; }
   #sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+  /* ── MOBILE SIDEBAR TOGGLE BUTTON ── */
+  #mob-sidebar-toggle {
+    display: none;
+    position: fixed;
+    bottom: 70px;
+    right: 16px;
+    z-index: 500;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent2);
+    border: 2px solid var(--accent);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+    transition: all 0.2s;
+  }
+  #mob-sidebar-toggle:hover { transform: scale(1.08); }
+
+  /* ── MOBILE RESPONSIVE ── */
+  @media (max-width: 768px) {
+    #topbar {
+      padding: 0 12px;
+      height: 44px;
+      gap: 8px;
+    }
+    #topbar h1 {
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+    .lvl-btn {
+      padding: 4px 10px;
+      font-size: 9px;
+    }
+
+    /* Map area fills screen */
+    #main {
+      flex-direction: column;
+    }
+
+    /* Sidebar becomes a fixed bottom drawer */
+    #sidebar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 0;
+      max-height: 70vh;
+      overflow-y: auto;
+      border-left: none;
+      border-top: 2px solid var(--accent2);
+      border-radius: 20px 20px 0 0;
+      z-index: 400;
+      transition: height 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+      flex-shrink: 0;
+    }
+    #sidebar.mob-open {
+      height: 70vh;
+    }
+
+    /* Drawer handle indicator at top of sidebar */
+    #sidebar::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 4px;
+      background: var(--border2);
+      border-radius: 2px;
+      margin: 10px auto 6px;
+    }
+
+    /* Show toggle button on mobile */
+    #mob-sidebar-toggle {
+      display: flex;
+    }
+
+    /* btnbar scrolls horizontally */
+    #btnbar {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      gap: 8px;
+      padding: 8px 12px;
+      scrollbar-width: none;
+    }
+    #btnbar::-webkit-scrollbar { display: none; }
+    .btn {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .ctrl-grp {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    input[type=range] { width: 65px; }
+
+    #click-mode-bar {
+      font-size: 10px;
+      padding: 6px 10px;
+    }
+
+    /* nav selects get larger touch targets */
+    .nav-select {
+      font-size: 12px;
+      padding: 8px 8px;
+    }
+    .btn-nav {
+      padding: 12px;
+      font-size: 12px;
+    }
+    .beacon-item {
+      padding: 10px 12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    #topbar h1 {
+      font-size: 10px;
+    }
+    .lvl-btn {
+      padding: 3px 8px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -402,6 +530,9 @@
     <button class="lvl-btn" id="l2" onclick="setFloor(2)">2F</button>
   </div>
 </div>
+
+<!-- Mobile sidebar toggle -->
+<button id="mob-sidebar-toggle" onclick="toggleMobileSidebar()" title="Open/Close Panel">📍</button>
 
 <div id="main">
   <div id="cv-wrap"><canvas id="cv"></canvas></div>
@@ -1405,6 +1536,65 @@ cv.addEventListener('wheel', e => {
   e.preventDefault();
   zoom=Math.max(0.4,Math.min(3, zoom*(e.deltaY<0?1.08:0.93)));
 },{passive:false});
+
+/* ════ TOUCH EVENTS (Mobile Pan + Pinch-Zoom) ════ */
+let lastTouchDist = 0;
+let touchPanning = false;
+let lastTX = 0, lastTY = 0;
+
+cv.addEventListener('touchstart', e => {
+  e.preventDefault();
+  if (e.touches.length === 1) {
+    touchPanning = false;
+    lastTX = e.touches[0].clientX;
+    lastTY = e.touches[0].clientY;
+  } else if (e.touches.length === 2) {
+    lastTouchDist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+  }
+}, { passive: false });
+
+cv.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if (e.touches.length === 1) {
+    const dx = e.touches[0].clientX - lastTX;
+    const dy = e.touches[0].clientY - lastTY;
+    if (Math.hypot(dx, dy) > 2) {
+      touchPanning = true;
+      panX += dx; panY += dy;
+      lastTX = e.touches[0].clientX;
+      lastTY = e.touches[0].clientY;
+    }
+  } else if (e.touches.length === 2) {
+    const newDist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+    if (lastTouchDist > 0) {
+      const scale = newDist / lastTouchDist;
+      zoom = Math.max(0.4, Math.min(3, zoom * scale));
+    }
+    lastTouchDist = newDist;
+  }
+}, { passive: false });
+
+cv.addEventListener('touchend', e => {
+  if (e.changedTouches.length === 1 && !touchPanning) {
+    // Treat as a tap/click
+    const touch = e.changedTouches[0];
+    handleCanvasClick({ clientX: touch.clientX, clientY: touch.clientY });
+  }
+  lastTouchDist = 0;
+  touchPanning = false;
+}, { passive: false });
+
+/* Mobile sidebar toggle */
+function toggleMobileSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.toggle('mob-open');
+}
 
 function handleCanvasClick(e) {
   const rect=cv.getBoundingClientRect();
