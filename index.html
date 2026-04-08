@@ -331,45 +331,40 @@
       font-size: 18px; cursor: pointer; flex-shrink: 0; padding: 4px;
     }
 
-    /* iOS: bottom sheet */
-    #ios-sheet {
+    /* ── Install progress screen (full-screen) ── */
+    #install-progress {
       display: none;
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
-      background: rgba(15,23,42,0.97);
-      border-top: 1px solid rgba(115,103,240,0.3);
-      border-radius: 24px 24px 0 0;
-      padding: 20px 24px;
-      padding-bottom: max(24px, env(safe-area-inset-bottom));
-      box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
-      animation: sheetUp 0.4s cubic-bezier(0.23,1,0.32,1);
+      position: fixed; inset: 0; z-index: 99999;
+      background: #0f172a;
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 20px; text-align: center; padding: 32px;
     }
-    #ios-sheet.show { display: block; }
-    @keyframes sheetUp {
-      from { transform: translateY(100%); }
-      to   { transform: translateY(0); }
+    #install-progress.show { display: flex; }
+    .ip-icon {
+      width: 90px; height: 90px; border-radius: 22px;
+      box-shadow: 0 8px 32px rgba(115,103,240,0.5);
+      animation: ipPulse 1.5s ease-in-out infinite;
     }
-    .sheet-handle {
-      width: 40px; height: 4px; border-radius: 2px;
-      background: rgba(255,255,255,0.2); margin: 0 auto 18px;
+    @keyframes ipPulse {
+      0%,100%{ box-shadow: 0 8px 32px rgba(115,103,240,0.4); transform: scale(1); }
+      50%    { box-shadow: 0 8px 48px rgba(115,103,240,0.7); transform: scale(1.04); }
     }
-    .sheet-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
-    .sheet-icon   { width: 52px; height: 52px; border-radius: 14px; }
-    .sheet-title  { font-size: 18px; font-weight: 700; color: #fff; }
-    .sheet-sub    { font-size: 13px; color: #64748b; margin-top: 2px; }
-    .sheet-steps  { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-    .sheet-step   { display: flex; align-items: flex-start; gap: 12px; }
-    .sheet-num    {
-      width: 26px; height: 26px; border-radius: 50%;
-      background: rgba(115,103,240,0.25); border: 1px solid rgba(115,103,240,0.4);
-      color: #a5b4fc; font-size: 13px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    .ip-title   { font-size: 22px; font-weight: 700; color: #fff; }
+    .ip-status  { font-size: 14px; color: #94a3b8; min-height: 20px; }
+    .ip-bar-wrap {
+      width: 220px; height: 5px; background: rgba(255,255,255,0.1);
+      border-radius: 3px; overflow: hidden;
     }
-    .sheet-step-text { font-size: 14px; color: #cbd5e1; line-height: 1.5; padding-top: 3px; }
-    .sheet-dismiss {
-      width: 100%; padding: 12px; border-radius: 14px;
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-      color: #94a3b8; font-size: 14px; cursor: pointer;
+    .ip-bar {
+      height: 100%; width: 0; border-radius: 3px;
+      background: linear-gradient(90deg, #7367f0, #4facfe);
+      transition: width 0.4s ease;
     }
+    .ip-checkmark {
+      font-size: 52px; display: none;
+      animation: popIn 0.4s cubic-bezier(0.23,1,0.32,1);
+    }
+    @keyframes popIn { from{transform:scale(0.5);opacity:0} to{transform:scale(1);opacity:1} }
   </style>
 </head>
 <body class="lost">
@@ -413,35 +408,15 @@
     <button class="ib-close"  onclick="dismissInstall()">✕</button>
   </div>
 
-  <!-- iOS Safari bottom sheet -->
-  <div id="ios-sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-header">
-      <img class="sheet-icon" src="icons/icon-192.png" alt="">
-      <div>
-        <div class="sheet-title">Install CampusNav</div>
-        <div class="sheet-sub">Add to Home Screen for notifications</div>
-      </div>
+  <!-- Full-screen install progress (shown while Android installs) -->
+  <div id="install-progress">
+    <div class="ip-checkmark" id="ip-check">✅</div>
+    <img class="ip-icon" id="ip-icon" src="icons/icon-192.png" alt="CampusNav">
+    <div class="ip-title" id="ip-title">Installing CampusNav…</div>
+    <div class="ip-status" id="ip-status">Adding to your home screen</div>
+    <div class="ip-bar-wrap">
+      <div class="ip-bar" id="ip-bar"></div>
     </div>
-    <div class="sheet-steps">
-      <div class="sheet-step">
-        <div class="sheet-num">1</div>
-        <div class="sheet-step-text">Tap the <strong style="color:#fff">Share ⬆</strong> button at the bottom of Safari</div>
-      </div>
-      <div class="sheet-step">
-        <div class="sheet-num">2</div>
-        <div class="sheet-step-text">Tap <strong style="color:#fff">"Add to Home Screen"</strong></div>
-      </div>
-      <div class="sheet-step">
-        <div class="sheet-num">3</div>
-        <div class="sheet-step-text">Tap <strong style="color:#fff">"Add"</strong> — CampusNav icon appears on your Home Screen</div>
-      </div>
-      <div class="sheet-step">
-        <div class="sheet-num">4</div>
-        <div class="sheet-step-text">Open from Home Screen → tap <strong style="color:#fff">"Enable Notification"</strong> inside the app</div>
-      </div>
-    </div>
-    <button class="sheet-dismiss" onclick="dismissInstall()">Maybe later</button>
   </div>
 
   <script>
@@ -498,65 +473,92 @@
       setTimeout(() => { window.location.href = 'select.html'; }, 600);
     }
 
-    /* ═══════════════════════════════════
-       SERVICE WORKER + PWA INSTALL PROMPT
-    ═══════════════════════════════════ */
-    let deferredPrompt = null;
-    const installed = localStorage.getItem('pwa_installed');
-
-    /* Register service worker */
+    /* ═══════════════════════════════════════════
+       SERVICE WORKER REGISTRATION
+    ═══════════════════════════════════════════ */
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').catch(console.warn);
     }
 
-    /* Detect OS */
-    const isIOS     = /iPhone|iPad|iPod/.test(navigator.userAgent);
-    const isAndroid = /Android/.test(navigator.userAgent);
-    const isStandalone = window.navigator.standalone === true ||
-                         window.matchMedia('(display-mode: standalone)').matches;
+    /* ═══════════════════════════════════════════
+       PWA INSTALL PROMPT (Android only)
+    ═══════════════════════════════════════════ */
+    let deferredPrompt = null;
 
-    /* Don't show prompt if already installed as PWA */
-    if (!isStandalone && !installed) {
-      if (isIOS) {
-        /* iOS: show bottom sheet after 1.5s */
-        setTimeout(() => {
-          document.getElementById('ios-sheet').classList.add('show');
-        }, 1500);
-      }
-    }
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+                      || window.navigator.standalone === true;
+    const isAndroid    = /Android/.test(navigator.userAgent);
+    const alreadyInstalled = localStorage.getItem('pwa_installed');
 
-    /* Android/Chrome: capture the install prompt */
+    /* Capture Android install prompt */
     window.addEventListener('beforeinstallprompt', e => {
       e.preventDefault();
       deferredPrompt = e;
-      if (!isStandalone && !installed) {
+      /* Show install banner after 1.5s if not already installed as PWA */
+      if (!isStandalone && !alreadyInstalled) {
         setTimeout(() => {
           document.getElementById('install-banner').classList.add('show');
         }, 1500);
       }
     });
 
-    /* Mark as installed after PWA install */
-    window.addEventListener('appinstalled', () => {
-      localStorage.setItem('pwa_installed', '1');
-      document.getElementById('install-banner').classList.remove('show');
-      deferredPrompt = null;
-    });
-
+    /* ── Tap Install button ── */
     function triggerInstall() {
       if (!deferredPrompt) return;
+
+      /* Hide banner, show full-screen progress */
+      document.getElementById('install-banner').classList.remove('show');
+      const prog = document.getElementById('install-progress');
+      prog.classList.add('show');
+
+      /* Animate the progress bar while Android installs */
+      animateBar(0, 70, 1000); // go to 70% while waiting
+
       deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(c => {
-        if (c.outcome === 'accepted') localStorage.setItem('pwa_installed', '1');
+      deferredPrompt.userChoice.then(choice => {
         deferredPrompt = null;
-        document.getElementById('install-banner').classList.remove('show');
+        if (choice.outcome === 'dismissed') {
+          /* User cancelled — hide screen */
+          prog.classList.remove('show');
+        }
+        /* If accepted — appinstalled event will fire next */
       });
+    }
+
+    /* ── App installed event → show success → auto-open as PWA ── */
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem('pwa_installed', '1');
+
+      /* Finish the progress bar */
+      animateBar(70, 100, 600);
+
+      /* Swap to success state */
+      setTimeout(() => {
+        document.getElementById('ip-icon').style.display   = 'none';
+        document.getElementById('ip-check').style.display  = 'block';
+        document.getElementById('ip-title').textContent    = 'CampusNav Installed!';
+        document.getElementById('ip-status').textContent   = 'Opening the app…';
+        document.querySelector('.ip-bar-wrap').style.display = 'none';
+
+        /* Reload: Chrome detects the installed PWA for this origin
+           and relaunches it in standalone mode automatically */
+        setTimeout(() => window.location.reload(), 1200);
+      }, 700);
+    });
+
+    function animateBar(from, to, duration) {
+      const bar   = document.getElementById('ip-bar');
+      const start = performance.now();
+      function step(now) {
+        const p = Math.min((now - start) / duration, 1);
+        bar.style.width = (from + (to - from) * p) + '%';
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
     }
 
     function dismissInstall() {
       document.getElementById('install-banner').classList.remove('show');
-      document.getElementById('ios-sheet').classList.remove('show');
-      /* Remind again after 24 hours */
       localStorage.setItem('install_dismissed', Date.now());
     }
   </script>
