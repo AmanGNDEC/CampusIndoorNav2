@@ -371,17 +371,25 @@
            Use Google Maps → right-click → "What's here?" to get exact coords.
     ══════════════════════════════════════════════════ */
     const BUILDINGS = {
-      CSE:  { name: 'CSE Department',       icon: '💻', lat: 30.85985962965969, lng: 75.86015712632643, radius: 50 },
-      ECE:  { name: 'ECE Department',       icon: '📡', lat: 30.90770, lng: 75.85800, radius: 50 },
-      MECH: { name: 'Mechanical Dept',      icon: '⚙️', lat: 30.90730, lng: 75.85700, radius: 50 },
-      AS:   { name: 'Applied Science Dept', icon: '🔬', lat: 30.90750, lng: 75.85740, radius: 50 },
-      IT:   { name: 'IT Department',        icon: '🌐', lat: 30.90810, lng: 75.85730, radius: 50 },
-      POLY: { name: 'Polytechnic Block',    icon: '🏗️', lat: 30.90710, lng: 75.85680, radius: 50 },
+      CSE:  { name: 'CSE Department',       icon: '💻', lat: 30.85985962965969, lng: 75.86015712632643, radius: 20 },
+      ECE:  { name: 'ECE Department',       icon: '📡', lat: 30.90770, lng: 75.85800, radius: 20 },
+      MECH: { name: 'Mechanical Dept',      icon: '⚙️', lat: 30.90730, lng: 75.85700, radius: 20 },
+      AS:   { name: 'Applied Science Dept', icon: '🔬', lat: 30.90750, lng: 75.85740, radius: 20 },
+      IT:   { name: 'IT Department',        icon: '🌐', lat: 30.90810, lng: 75.85730, radius: 20 },
+      POLY: { name: 'Polytechnic Block',    icon: '🏗️', lat: 30.90710, lng: 75.85680, radius: 20 },
     };
 
-    let watchId      = null;   // geolocation watch handle
-    let activeBldg   = null;   // current building key
-    let mapsOpened   = false;  // whether Maps was opened
+    let watchId    = null;   // geolocation watch handle
+    let activeBldg = null;   // current building key
+    let isArrived  = false;  // guard: prevent double-trigger
+
+    /* ── visibilitychange: fires when user switches back from Google Maps tab ── */
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && isArrived && activeBldg) {
+        // Page became visible again AND we already detected arrival → navigate now
+        doNavigate(activeBldg);
+      }
+    });
 
     /* ── Haversine distance (metres) ── */
     function haversine(lat1, lng1, lat2, lng2) {
@@ -420,12 +428,14 @@
       const overlay = document.getElementById('arrival-overlay');
       overlay.classList.add('visible');
 
+      // Reset arrival state
+      isArrived = false;
+
       // Reset GPS UI
       setGpsStatus('acquiring', 'Acquiring GPS…');
 
       // Try to open Maps automatically
-      const mapsWin = window.open(mapsUrl, '_blank');
-      mapsOpened = !!mapsWin;
+      window.open(mapsUrl, '_blank');
 
       // Start geofence watch
       startGeofenceWatch(b);
@@ -451,8 +461,9 @@
           );
           updateDistance(dist);
 
-          if (dist <= building.radius) {
-            // ✅ ARRIVED — switch to indoor nav
+          if (dist <= building.radius && !isArrived) {
+            // ✅ ARRIVED — mark flag first, then trigger
+            isArrived = true;
             arrived(activeBldg);
           }
         },
@@ -488,34 +499,46 @@
     /* ── Triggered when GPS enters the building radius ── */
     function arrived(key) {
       stopWatch();
+
+      // Vibrate to confirm arrival
+      if (navigator.vibrate) navigator.vibrate([150, 80, 150]);
+
+      // Update UI
       const ring = document.getElementById('dist-ring');
       ring.classList.add('arrived');
       document.getElementById('dist-value').textContent  = '✓';
-      document.getElementById('dist-label').textContent  = 'You\'ve arrived!';
+      document.getElementById('dist-label').textContent  = "You've arrived!";
       document.getElementById('ov-subtitle').textContent = 'Switching to indoor navigation…';
       setGpsStatus('active', 'Inside building — handing off');
 
-      setTimeout(() => goToMap(key), 1200);
+      // Navigate immediately if tab is visible; otherwise visibilitychange will handle it
+      if (!document.hidden) {
+        doNavigate(key);
+      }
+      // (if tab is hidden/background, visibilitychange listener above fires on tab-switch)
+    }
+
+    /* ── Navigate to map.html (reliable replace, no double setTimeout) ── */
+    function doNavigate(key) {
+      localStorage.setItem('building', key);
+      document.body.style.transition = 'opacity 0.5s ease';
+      document.body.style.opacity = '0';
+      // Use replace() so back button doesn't return to the overlay state
+      setTimeout(() => { window.location.replace('map.html'); }, 500);
     }
 
     /* ── "I'm already here" button ── */
     function skipToIndoor() {
       stopWatch();
-      goToMap(activeBldg);
-    }
-
-    /* ── Navigate to map.html with fade ── */
-    function goToMap(key) {
-      localStorage.setItem('building', key);
-      document.body.style.transition = 'opacity 0.5s ease';
-      document.body.style.opacity = '0';
-      setTimeout(() => { window.location.href = 'map.html'; }, 500);
+      isArrived = true;
+      doNavigate(activeBldg);
     }
 
     /* ── Close overlay (go back to building selection) ── */
     function closeOverlay() {
       stopWatch();
       activeBldg = null;
+      isArrived  = false;
       document.getElementById('arrival-overlay').classList.remove('visible');
     }
 
