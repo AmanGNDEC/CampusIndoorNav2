@@ -10,53 +10,38 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
 
     body {
-      min-height: 100vh;
-      min-height: 100dvh;
+      min-height: 100vh; min-height: 100dvh;
       background-color: #0f172a;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
-      position: relative;
-      color: white;
-      padding: 2rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      overflow-x: hidden; position: relative;
+      color: white; padding: 2rem;
     }
 
-    /* ── BACKGROUND ── */
     .bg-gradient {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: linear-gradient(-45deg, #0f172a, #3730A3, #7367f0, #1E1B4B);
       background-size: 400% 400%;
-      z-index: 0;
-      animation: gradientShift 10s ease infinite;
+      z-index: 0; animation: gradientShift 10s ease infinite;
     }
     @keyframes gradientShift {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      0%  { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100%{ background-position: 0% 50%; }
     }
 
     .content-wrapper {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      max-width: 1000px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      position: relative; z-index: 10; width: 100%; max-width: 1000px;
+      display: flex; flex-direction: column; align-items: center;
     }
 
     header {
-      text-align: center;
-      margin-bottom: 50px;
-      opacity: 0;
-      animation: fadeDown 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      text-align: center; margin-bottom: 50px;
+      opacity: 0; animation: fadeDown 1s cubic-bezier(0.23,1,0.32,1) forwards;
     }
     @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-30px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from { opacity:0; transform:translateY(-30px); }
+      to   { opacity:1; transform:translateY(0); }
     }
     header h1 {
       font-size: 46px; font-weight: 700; margin-bottom: 10px;
@@ -68,282 +53,175 @@
 
     /* ── BUILDING CARDS ── */
     .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      width: 100%;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px; width: 100%;
     }
     .card {
-      position: relative;
-      background: rgba(255,255,255,0.03);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 24px;
-      padding: 30px 25px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(40px);
-      animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      position: relative; background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 24px;
+      padding: 30px 25px; cursor: pointer;
+      display: flex; flex-direction: column; align-items: flex-start;
+      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+      overflow: hidden; opacity: 0; transform: translateY(40px);
+      animation: fadeInUp 0.8s cubic-bezier(0.23,1,0.32,1) forwards;
     }
-    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { to { opacity:1; transform:translateY(0); } }
     .card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      content:''; position:absolute; inset:0;
       background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
-      opacity: 0; transition: opacity 0.4s ease; z-index: 1;
+      opacity:0; transition:opacity 0.4s ease; z-index:1;
     }
-    .card:hover { transform: translateY(-8px) scale(1.02); border-color: rgba(255,255,255,0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(79,172,254,0.2); }
-    .card:hover::before { opacity: 1; }
+    .card:hover { transform:translateY(-8px) scale(1.02); border-color:rgba(255,255,255,0.2); box-shadow:0 20px 40px rgba(0,0,0,0.4),0 0 20px rgba(79,172,254,0.2); }
+    .card:hover::before { opacity:1; }
     .icon-wrap {
-      width: 60px; height: 60px; border-radius: 16px;
-      background: rgba(255,255,255,0.05);
-      display: flex; justify-content: center; align-items: center;
-      font-size: 28px; margin-bottom: 20px;
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: all 0.4s ease; position: relative; z-index: 2;
+      width:60px; height:60px; border-radius:16px; background:rgba(255,255,255,0.05);
+      display:flex; justify-content:center; align-items:center;
+      font-size:28px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.1);
+      transition:all 0.4s ease; position:relative; z-index:2;
     }
-    .card:hover .icon-wrap { background: linear-gradient(135deg,#4facfe,#00f2fe); transform: scale(1.1) rotate(-5deg); border-color: transparent; box-shadow: 0 10px 20px rgba(0,242,254,0.3); }
-    .card h3 { font-size: 24px; font-weight: 600; margin-bottom: 8px; color: #f8fafc; position: relative; z-index: 2; }
-    .card p  { font-size: 14px; color: #cbd5e1; font-weight: 300; line-height: 1.4; position: relative; z-index: 2; }
-
-    /* Particles */
-    .particle { position: absolute; border-radius: 50%; background: white; opacity: 0.1; pointer-events: none; animation: floatUp infinite linear; }
+    .card:hover .icon-wrap { background:linear-gradient(135deg,#4facfe,#00f2fe); transform:scale(1.1) rotate(-5deg); border-color:transparent; box-shadow:0 10px 20px rgba(0,242,254,0.3); }
+    .card h3 { font-size:24px; font-weight:600; margin-bottom:8px; color:#f8fafc; position:relative; z-index:2; }
+    .card p  { font-size:14px; color:#cbd5e1; font-weight:300; line-height:1.4; position:relative; z-index:2; }
+    .particle { position:absolute; border-radius:50%; background:white; opacity:0.1; pointer-events:none; animation:floatUp infinite linear; }
     @keyframes floatUp {
-      from { transform: translateY(100vh) scale(0.5); opacity: 0; }
-      10%  { opacity: 0.2; }
-      90%  { opacity: 0.2; }
-      to   { transform: translateY(-100px) scale(1.5); opacity: 0; }
+      from{ transform:translateY(100vh) scale(0.5); opacity:0; }
+      10%  { opacity:0.2; } 90% { opacity:0.2; }
+      to   { transform:translateY(-100px) scale(1.5); opacity:0; }
     }
 
-    /* ══════════════════════════════════════════
-       ARRIVAL OVERLAY  (geofence handoff screen)
-    ══════════════════════════════════════════ */
+    /* ══════════════════════════════════
+       ARRIVAL OVERLAY
+    ══════════════════════════════════ */
     #arrival-overlay {
       display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background: rgba(10, 15, 30, 0.92);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      animation: overlayIn 0.4s ease forwards;
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(10,15,30,0.92);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      align-items: center; justify-content: center; padding: 24px;
     }
     #arrival-overlay.visible { display: flex; }
-    @keyframes overlayIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
 
     .arrival-card {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 28px;
-      padding: 40px 32px 32px;
-      max-width: 380px;
-      width: 100%;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      border-radius: 28px; padding: 40px 32px 32px;
+      max-width: 380px; width: 100%; text-align: center;
+      position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.5);
       animation: cardPop 0.45s cubic-bezier(0.23,1,0.32,1) forwards;
     }
     @keyframes cardPop {
-      from { transform: scale(0.9) translateY(20px); opacity: 0; }
-      to   { transform: scale(1) translateY(0);      opacity: 1; }
+      from { transform:scale(0.9) translateY(20px); opacity:0; }
+      to   { transform:scale(1) translateY(0);      opacity:1; }
     }
 
-    /* Building icon + name */
-    .arrival-icon { font-size: 52px; margin-bottom: 12px; }
-    .arrival-card h2 {
-      font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 6px;
+    .arrival-close {
+      position:absolute; top:16px; right:18px;
+      background:none; border:none; color:#64748b;
+      font-size:22px; cursor:pointer; line-height:1; transition:color 0.2s;
     }
-    .arrival-subtitle {
-      font-size: 14px; color: #94a3b8; font-weight: 300; margin-bottom: 28px;
-    }
+    .arrival-close:hover { color:#fff; }
 
-    /* Animated distance ring */
-    .distance-ring {
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      border: 3px solid rgba(115,103,240,0.3);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      margin: 0 auto 24px;
-      position: relative;
-      background: rgba(115,103,240,0.06);
-    }
-    .distance-ring::before {
-      content: '';
-      position: absolute; inset: -8px;
-      border-radius: 50%;
-      border: 2px solid transparent;
-      border-top-color: #7367f0;
-      animation: spin 2s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .distance-ring.arrived { border-color: rgba(16,185,129,0.5); background: rgba(16,185,129,0.08); }
-    .distance-ring.arrived::before { border-top-color: #10b981; }
-
-    .distance-value {
-      font-size: 30px; font-weight: 700; color: #a5b4fc;
-      line-height: 1;
-    }
-    .distance-ring.arrived .distance-value { color: #10b981; }
-    .distance-label { font-size: 11px; color: #64748b; margin-top: 4px; }
+    .arrival-icon { font-size:52px; margin-bottom:12px; }
+    .arrival-card h2 { font-size:22px; font-weight:700; color:#fff; margin-bottom:6px; }
+    .arrival-subtitle { font-size:14px; color:#94a3b8; font-weight:300; margin-bottom:24px; }
 
     /* GPS status pill */
     .gps-status {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 12px; color: #94a3b8;
-      margin-bottom: 28px;
+      display:inline-flex; align-items:center; gap:7px;
+      background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
+      border-radius:20px; padding:6px 14px;
+      font-size:12px; color:#94a3b8; margin-bottom:24px;
     }
     .gps-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #64748b;
-      transition: background 0.4s;
+      width:8px; height:8px; border-radius:50%; background:#64748b; transition:background 0.4s;
     }
-    .gps-dot.active   { background: #10b981; box-shadow: 0 0 8px #10b981; animation: gpsPulse 1.5s infinite; }
-    .gps-dot.error    { background: #ef4444; }
+    .gps-dot.active { background:#10b981; box-shadow:0 0 8px #10b981; animation:gpsPulse 1.5s infinite; }
+    .gps-dot.error  { background:#ef4444; }
     @keyframes gpsPulse {
-      0%,100% { box-shadow: 0 0 4px #10b981; }
-      50%      { box-shadow: 0 0 12px #10b981, 0 0 20px rgba(16,185,129,0.3); }
+      0%,100%{ box-shadow:0 0 4px #10b981; }
+      50%    { box-shadow:0 0 12px #10b981, 0 0 20px rgba(16,185,129,0.3); }
     }
 
-    /* Action buttons */
-    .arrival-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+    /* Distance ring */
+    .distance-ring {
+      width:120px; height:120px; border-radius:50%;
+      border:3px solid rgba(115,103,240,0.3);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      margin:0 auto 24px; position:relative; background:rgba(115,103,240,0.06);
+    }
+    .distance-ring::before {
+      content:''; position:absolute; inset:-8px; border-radius:50%;
+      border:2px solid transparent; border-top-color:#7367f0;
+      animation:spin 2s linear infinite;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .distance-ring.arrived { border-color:rgba(16,185,129,0.5); background:rgba(16,185,129,0.08); }
+    .distance-ring.arrived::before { border-top-color:#10b981; }
+    .distance-value { font-size:30px; font-weight:700; color:#a5b4fc; line-height:1; }
+    .distance-ring.arrived .distance-value { color:#10b981; }
+    .distance-label { font-size:11px; color:#64748b; margin-top:4px; }
+
+    /* Buttons */
+    .arrival-actions { display:flex; flex-direction:column; gap:12px; margin-top:4px; }
     .arrival-btn {
-      width: 100%; padding: 14px;
-      border-radius: 50px; border: none;
-      font-size: 15px; font-weight: 600;
-      cursor: pointer; transition: all 0.25s ease;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      text-decoration: none;
+      width:100%; padding:14px; border-radius:50px; border:none;
+      font-size:15px; font-weight:600; cursor:pointer;
+      transition:all 0.25s ease;
+      display:flex; align-items:center; justify-content:center; gap:8px;
+      text-decoration:none;
     }
     .arrival-btn.primary {
-      background: linear-gradient(135deg, #7367f0, #4facfe);
-      color: #fff;
-      box-shadow: 0 8px 24px rgba(115,103,240,0.4);
+      background:linear-gradient(135deg,#7367f0,#4facfe);
+      color:#fff; box-shadow:0 8px 24px rgba(115,103,240,0.4);
     }
-    .arrival-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(115,103,240,0.5); }
+    .arrival-btn.primary:hover { transform:translateY(-2px); box-shadow:0 12px 28px rgba(115,103,240,0.5); }
     .arrival-btn.secondary {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: rgba(255,255,255,0.8);
+      background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.8);
     }
-    .arrival-btn.secondary:hover { background: rgba(255,255,255,0.12); }
+    .arrival-btn.secondary:hover { background:rgba(255,255,255,0.12); }
 
-    .arrival-note {
-      font-size: 11px; color: #475569;
-      margin-top: 18px; line-height: 1.5;
-    }
+    .arrival-note { font-size:11px; color:#475569; margin-top:16px; line-height:1.5; }
 
-    /* close X */
-    .arrival-close {
-      position: absolute; top: 16px; right: 18px;
-      background: none; border: none; color: #64748b;
-      font-size: 22px; cursor: pointer; line-height: 1;
-      transition: color 0.2s;
-    }
-    .arrival-close:hover { color: #fff; }
-
-    /* DEV: simulate arrival countdown */
+    /* DEV: countdown */
     .test-bar {
-      margin-top: 16px;
-      padding: 10px 14px;
-      background: rgba(234, 179, 8, 0.08);
-      border: 1px dashed rgba(234, 179, 8, 0.4);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+      margin-top:16px; padding:10px 14px;
+      background:rgba(234,179,8,0.08); border:1px dashed rgba(234,179,8,0.4);
+      border-radius:12px; display:flex; align-items:center; justify-content:space-between; gap:10px;
     }
-    .test-bar span {
-      font-size: 11px;
-      color: #ca8a04;
-      font-weight: 500;
-      line-height: 1.4;
-    }
+    .test-bar span { font-size:11px; color:#ca8a04; font-weight:500; line-height:1.4; }
     .test-countdown {
-      width: 38px; height: 38px;
-      border-radius: 50%;
-      background: rgba(234,179,8,0.2);
-      border: 2px solid rgba(234,179,8,0.6);
-      color: #fbbf24;
-      font-size: 18px;
-      font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      animation: countPulse 1s ease infinite;
+      width:38px; height:38px; border-radius:50%;
+      background:rgba(234,179,8,0.2); border:2px solid rgba(234,179,8,0.6);
+      color:#fbbf24; font-size:18px; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+      animation:countPulse 1s ease infinite;
     }
     @keyframes countPulse {
-      0%,100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(234,179,8,0.4); }
-      50%      { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(234,179,8,0); }
+      0%,100%{ transform:scale(1);    }
+      50%    { transform:scale(1.1);  }
     }
-
-    /* Notification permission nudge */
-    .notif-bar {
-      margin-top: 12px;
-      padding: 10px 14px;
-      background: rgba(99,102,241,0.08);
-      border: 1px dashed rgba(99,102,241,0.35);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .notif-bar span {
-      font-size: 11px;
-      color: #a5b4fc;
-      font-weight: 400;
-      line-height: 1.4;
-    }
-    .notif-allow-btn {
-      padding: 6px 14px;
-      background: rgba(99,102,241,0.2);
-      border: 1px solid rgba(99,102,241,0.5);
-      border-radius: 8px;
-      color: #a5b4fc;
-      font-size: 12px; font-weight: 600;
-      cursor: pointer; white-space: nowrap;
-      transition: all 0.2s; flex-shrink: 0;
-    }
-    .notif-allow-btn:hover { background: rgba(99,102,241,0.35); }
 
     /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      body { padding: 1.5rem 1rem; justify-content: flex-start; padding-top: 2.5rem; }
-      header { margin-bottom: 28px; }
-      header h1 { font-size: 30px; letter-spacing: -0.5px; }
-      header p  { font-size: 14px; }
-      .grid { grid-template-columns: 1fr 1fr; gap: 14px; }
-      .card { padding: 20px 16px; border-radius: 18px; }
-      .icon-wrap { width: 50px; height: 50px; font-size: 22px; margin-bottom: 14px; border-radius: 12px; }
-      .card h3 { font-size: 18px; }
-      .card p  { font-size: 12px; }
-      .arrival-card { padding: 32px 22px 26px; }
+    @media (max-width:768px) {
+      body { padding:1.5rem 1rem; justify-content:flex-start; padding-top:2.5rem; }
+      header { margin-bottom:28px; }
+      header h1 { font-size:30px; letter-spacing:-0.5px; }
+      header p  { font-size:14px; }
+      .grid { grid-template-columns:1fr 1fr; gap:14px; }
+      .card { padding:20px 16px; border-radius:18px; }
+      .icon-wrap { width:50px; height:50px; font-size:22px; margin-bottom:14px; border-radius:12px; }
+      .card h3 { font-size:18px; }
+      .card p  { font-size:12px; }
+      .arrival-card { padding:32px 22px 26px; }
     }
-    @media (max-width: 400px) {
-      body { padding: 1.5rem 0.75rem; }
-      header h1 { font-size: 24px; }
-      .grid { grid-template-columns: 1fr; gap: 12px; }
-      .card { flex-direction: row; align-items: center; padding: 16px; gap: 14px; }
-      .icon-wrap { margin-bottom: 0; flex-shrink: 0; }
-      .card h3 { font-size: 17px; margin-bottom: 4px; }
+    @media (max-width:400px) {
+      body { padding:1.5rem 0.75rem; }
+      header h1 { font-size:24px; }
+      .grid { grid-template-columns:1fr; gap:12px; }
+      .card { flex-direction:row; align-items:center; padding:16px; gap:14px; }
+      .icon-wrap { margin-bottom:0; flex-shrink:0; }
+      .card h3 { font-size:17px; margin-bottom:4px; }
     }
   </style>
 </head>
@@ -357,63 +235,35 @@
       <h1>Select Your Destination</h1>
       <p>Choose a building — we'll guide you there &amp; inside.</p>
     </header>
-
     <div class="grid">
-      <div class="card" onclick="selectBuilding('CSE')" style="animation-delay:0.1s">
-        <div class="icon-wrap">💻</div>
-        <h3>CSE Dept</h3>
-        <p>Computer Science &amp; Engineering</p>
-      </div>
-      <div class="card" onclick="selectBuilding('ECE')" style="animation-delay:0.2s">
-        <div class="icon-wrap">📡</div>
-        <h3>ECE Dept</h3>
-        <p>Electronics &amp; Communication</p>
-      </div>
-      <div class="card" onclick="selectBuilding('MECH')" style="animation-delay:0.3s">
-        <div class="icon-wrap">⚙️</div>
-        <h3>Mechanical</h3>
-        <p>Mechanical Engineering &amp; Labs</p>
-      </div>
-      <div class="card" onclick="selectBuilding('AS')" style="animation-delay:0.4s">
-        <div class="icon-wrap">🔬</div>
-        <h3>Applied Science</h3>
-        <p>Physics, Chemistry &amp; Math</p>
-      </div>
-      <div class="card" onclick="selectBuilding('IT')" style="animation-delay:0.5s">
-        <div class="icon-wrap">🌐</div>
-        <h3>IT Dept</h3>
-        <p>Information Technology</p>
-      </div>
-      <div class="card" onclick="selectBuilding('POLY')" style="animation-delay:0.6s">
-        <div class="icon-wrap">🏗️</div>
-        <h3>Polytechnic</h3>
-        <p>Diploma &amp; Technical Studies</p>
-      </div>
+      <div class="card" onclick="selectBuilding('CSE')"  style="animation-delay:0.1s"><div class="icon-wrap">💻</div><h3>CSE Dept</h3><p>Computer Science &amp; Engineering</p></div>
+      <div class="card" onclick="selectBuilding('ECE')"  style="animation-delay:0.2s"><div class="icon-wrap">📡</div><h3>ECE Dept</h3><p>Electronics &amp; Communication</p></div>
+      <div class="card" onclick="selectBuilding('MECH')" style="animation-delay:0.3s"><div class="icon-wrap">⚙️</div><h3>Mechanical</h3><p>Mechanical Engineering &amp; Labs</p></div>
+      <div class="card" onclick="selectBuilding('AS')"   style="animation-delay:0.4s"><div class="icon-wrap">🔬</div><h3>Applied Science</h3><p>Physics, Chemistry &amp; Math</p></div>
+      <div class="card" onclick="selectBuilding('IT')"   style="animation-delay:0.5s"><div class="icon-wrap">🌐</div><h3>IT Dept</h3><p>Information Technology</p></div>
+      <div class="card" onclick="selectBuilding('POLY')" style="animation-delay:0.6s"><div class="icon-wrap">🏗️</div><h3>Polytechnic</h3><p>Diploma &amp; Technical Studies</p></div>
     </div>
   </div>
 
   <!-- ══ ARRIVAL OVERLAY ══ -->
   <div id="arrival-overlay">
     <div class="arrival-card">
-      <button class="arrival-close" onclick="closeOverlay()" title="Back">✕</button>
+      <button class="arrival-close" onclick="closeOverlay()">✕</button>
 
       <div class="arrival-icon" id="ov-icon">🏛️</div>
       <h2 id="ov-name">Building</h2>
       <p class="arrival-subtitle" id="ov-subtitle">Google Maps is guiding you outdoors.</p>
 
-      <!-- GPS status -->
       <div class="gps-status">
         <div class="gps-dot" id="gps-dot"></div>
         <span id="gps-text">Acquiring GPS…</span>
       </div>
 
-      <!-- Distance ring -->
       <div class="distance-ring" id="dist-ring">
         <div class="distance-value" id="dist-value">--</div>
         <div class="distance-label" id="dist-label">meters away</div>
       </div>
 
-      <!-- Buttons -->
       <div class="arrival-actions">
         <a class="arrival-btn primary" id="maps-link" href="#" target="_blank" rel="noopener noreferrer">
           🗺️ Open Google Maps
@@ -424,19 +274,14 @@
       </div>
 
       <p class="arrival-note">
-        📡 CampusNav will switch to indoor mode automatically<br>when you step inside the building.
+        📡 CampusNav will notify you when you reach the building.<br>
+        Tap the notification to start indoor navigation.
       </p>
 
-      <!-- Notification permission nudge (shown if permission not yet granted) -->
-      <div class="notif-bar" id="notif-bar" style="display:none">
-        <span>🔔 Allow notifications to auto-switch from Maps</span>
-        <button class="notif-allow-btn" onclick="askNotifPermission()">Allow</button>
-      </div>
-
-      <!-- DEV TEST BAR — remove before production -->
-      <div class="test-bar" id="test-bar">
+      <!-- DEV: auto countdown — remove before production -->
+      <div class="test-bar">
         <span>🧪 <strong>Dev Mode</strong><br>Auto-simulating arrival in…</span>
-        <div class="test-countdown" id="test-countdown">2</div>
+        <div class="test-countdown" id="test-countdown">5</div>
       </div>
     </div>
   </div>
@@ -444,47 +289,50 @@
   <script>
     /* ══════════════════════════════════════════════════
        BUILDING REGISTRY
-       ⚠️  Update lat/lng to your actual building GPS coords.
-           Use Google Maps → right-click → "What's here?" to get exact coords.
+       ⚠️ Update lat/lng with your actual GPS coordinates.
+          Google Maps → long press on building → copy coords
     ══════════════════════════════════════════════════ */
     const BUILDINGS = {
-      CSE:  { name: 'CSE Department',       icon: '💻', lat: 30.85985962965969, lng: 75.86015712632643, radius: 20 },
-      ECE:  { name: 'ECE Department',       icon: '📡', lat: 30.90770, lng: 75.85800, radius: 20 },
-      MECH: { name: 'Mechanical Dept',      icon: '⚙️', lat: 30.90730, lng: 75.85700, radius: 20 },
-      AS:   { name: 'Applied Science Dept', icon: '🔬', lat: 30.90750, lng: 75.85740, radius: 20 },
-      IT:   { name: 'IT Department',        icon: '🌐', lat: 30.90810, lng: 75.85730, radius: 20 },
-      POLY: { name: 'Polytechnic Block',    icon: '🏗️', lat: 30.90710, lng: 75.85680, radius: 20 },
+      CSE:  { name:'CSE Department',       icon:'💻', lat:30.85985962965969, lng:75.86015712632643, radius:20 },
+      ECE:  { name:'ECE Department',       icon:'📡', lat:30.90770, lng:75.85800, radius:20 },
+      MECH: { name:'Mechanical Dept',      icon:'⚙️', lat:30.90730, lng:75.85700, radius:20 },
+      AS:   { name:'Applied Science Dept', icon:'🔬', lat:30.90750, lng:75.85740, radius:20 },
+      IT:   { name:'IT Department',        icon:'🌐', lat:30.90810, lng:75.85730, radius:20 },
+      POLY: { name:'Polytechnic Block',    icon:'🏗️', lat:30.90710, lng:75.85680, radius:20 },
     };
 
-    let watchId    = null;   // geolocation watch handle
-    let activeBldg = null;   // current building key
-    let isArrived  = false;  // guard: prevent double-trigger
+    let watchId    = null;
+    let activeBldg = null;
+    let isArrived  = false;
+    let swReg      = null;
 
-    /* ── visibilitychange: fires when user switches back from Google Maps tab ── */
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden && isArrived && activeBldg) {
-        // Page became visible again AND we already detected arrival → navigate now
-        doNavigate(activeBldg);
-      }
-    });
-
-    /* ── Haversine distance (metres) ── */
-    function haversine(lat1, lng1, lat2, lng2) {
-      const R = 6371000;
-      const toRad = d => d * Math.PI / 180;
-      const dLat = toRad(lat2 - lat1);
-      const dLng = toRad(lng2 - lng1);
-      const a = Math.sin(dLat/2)**2 +
-                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng/2)**2;
-      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    /* ── Register Service Worker (handles notification click → opens map.html) ── */
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(r => { swReg = r; })
+        .catch(e => console.warn('SW failed:', e));
     }
 
-    /* ── Main entry point when a card is tapped ── */
+    /* ── visibilitychange: if user manually switches back after arrival ── */
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && isArrived && activeBldg) doNavigate(activeBldg);
+    });
+
+    /* ── Haversine distance in metres ── */
+    function haversine(lat1,lng1,lat2,lng2){
+      const R=6371000, r=d=>d*Math.PI/180;
+      const dLat=r(lat2-lat1), dLng=r(lng2-lng1);
+      const a=Math.sin(dLat/2)**2+Math.cos(r(lat1))*Math.cos(r(lat2))*Math.sin(dLng/2)**2;
+      return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+    }
+
+    /* ── Card tapped ── */
     function selectBuilding(key) {
       const b = BUILDINGS[key];
-      if (!b) { goToMap(key); return; }
+      if (!b) { doNavigate(key); return; }
 
       activeBldg = key;
+      isArrived  = false;
       localStorage.setItem('building', key);
 
       // Populate overlay
@@ -494,207 +342,81 @@
       document.getElementById('dist-value').textContent  = '--';
       document.getElementById('dist-label').textContent  = 'meters away';
       document.getElementById('dist-ring').classList.remove('arrived');
+      document.getElementById('test-countdown').textContent = '5';
 
-      // Build Maps URL (walking, from current location → building coords)
-      const mapsUrl = `https://www.google.com/maps/dir/?api=1` +
-                      `&destination=${b.lat},${b.lng}` +
-                      `&travelmode=walking`;
+      // Maps URL — opens in NEW TAB so browser URL stays on select.html
+      // (IMPORTANT: do NOT use window.location.href here — that replaces the page
+      //  and makes the notification click open Maps instead of our app)
+      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${b.lat},${b.lng}&travelmode=walking`;
       document.getElementById('maps-link').href = mapsUrl;
 
       // Show overlay
-      const overlay = document.getElementById('arrival-overlay');
-      overlay.classList.add('visible');
-
-      // Reset arrival state
-      isArrived = false;
-
-      // Reset GPS UI
+      document.getElementById('arrival-overlay').classList.add('visible');
       setGpsStatus('acquiring', 'Acquiring GPS…');
 
-      // Request notification permission + register service worker
-      initNotifications();
+      // Request notification permission (browser prompt)
+      if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+      }
 
-      // Open Google Maps in a NEW TAB so browser URL stays on select.html
-      // (If we use location.href Maps would replace this page — notification click breaks)
-      window.open(
-        `https://www.google.com/maps/dir/?api=1&destination=${b.lat},${b.lng}&travelmode=walking`,
-        '_blank'
-      );
+      // Open Google Maps in a new browser tab
+      window.open(mapsUrl, '_blank');
 
-      // Start geofence watch
+      // Start GPS geofence watch
       startGeofenceWatch(b);
 
-      // DEV: auto-simulate arrival after 2 second countdown
+      // DEV: auto-simulate (remove in production)
       startSimCountdown();
-    }
-
-    /* ── Register Service Worker ── */
-    let swReg = null;
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(reg => { swReg = reg; })
-        .catch(err => console.warn('SW registration failed:', err));
-    }
-
-    /* ── Notification setup ── */
-    function initNotifications() {
-      if (!('Notification' in window)) return;
-      if (Notification.permission === 'granted') {
-        document.getElementById('notif-bar').style.display = 'none';
-      } else if (Notification.permission === 'default') {
-        document.getElementById('notif-bar').style.display = 'flex';
-        Notification.requestPermission().then(p => {
-          if (p === 'granted')
-            document.getElementById('notif-bar').style.display = 'none';
-        });
-      }
-    }
-
-    function askNotifPermission() {
-      Notification.requestPermission().then(p => {
-        if (p === 'granted')
-          document.getElementById('notif-bar').style.display = 'none';
-      });
-    }
-
-    /* ── Fire arrival notification via Service Worker ──
-       SW-based notifications are the ONLY reliable way to open a specific
-       URL when the user taps a notification on mobile (cross-app).
-       The notificationclick event in sw.js calls clients.openWindow('map.html'). */
-    async function fireArrivalNotification(key) {
-      if (!('Notification' in window) || Notification.permission !== 'granted') return;
-      const b = BUILDINGS[key] || {};
-
-      localStorage.setItem('building', key);
-
-      // Use service worker registration for reliable notification click handling
-      if (swReg) {
-        await swReg.update(); // make sure SW is current
-        swReg.showNotification('📍 You\'ve arrived!', {
-          body: `Step inside ${b.name || 'the building'} — tap to start indoor navigation.`,
-          icon:             'icons/icon-192.png',
-          badge:            'icons/icon-192.png',
-          tag:              'campusnav-arrival',  // replaces any earlier arrival notif
-          requireInteraction: true,               // stays until tapped
-          data:             { building: key },    // passed to notificationclick in sw.js
-          vibrate:          [150, 80, 150],
-        });
-      } else {
-        // Fallback: plain Notification (onclick may not work cross-app but better than nothing)
-        const notif = new Notification('📍 You\'ve arrived!', {
-          body: `Tap to start indoor navigation at ${b.name || 'the building'}.`,
-          tag: 'campusnav-arrival',
-          requireInteraction: true,
-        });
-        notif.onclick = () => { notif.close(); doNavigate(key); };
-      }
-    }
-
-    /* ── DEV: Countdown then auto-simulate arrival ── */
-    let simTimer = null;
-
-    function startSimCountdown() {
-      clearTimeout(simTimer);
-      let count = 2;
-      const el = document.getElementById('test-countdown');
-      if (el) el.textContent = count;
-
-      const tick = setInterval(() => {
-        count--;
-        if (el) el.textContent = count <= 0 ? '🚀' : count;
-        if (count <= 0) {
-          clearInterval(tick);
-          simulateArrival();
-        }
-      }, 1000);
-    }
-
-    function simulateArrival() {
-      if (!activeBldg || isArrived) return;
-
-      // Animate distance decreasing: 150 → 80 → 35 → 8m to simulate walking up
-      const steps = [150, 80, 35, 8];
-      let i = 0;
-      setGpsStatus('active', 'GPS locked ✓');
-      const walk = setInterval(() => {
-        updateDistance(steps[i]);
-        i++;
-        if (i >= steps.length) {
-          clearInterval(walk);
-          // At 8m — trigger arrived
-          setTimeout(() => {
-            if (!isArrived) {
-              isArrived = true;
-              arrived(activeBldg);
-            }
-          }, 400);
-        }
-      }, 350);
     }
 
     /* ── GPS geofence watch ── */
     function startGeofenceWatch(building) {
-      if (watchId !== null) {
-        navigator.geolocation.clearWatch(watchId);
-        watchId = null;
-      }
-
+      stopWatch();
       if (!navigator.geolocation) {
         setGpsStatus('error', 'GPS unavailable on this device');
         return;
       }
-
       watchId = navigator.geolocation.watchPosition(
         pos => {
           const dist = Math.round(
-            haversine(pos.coords.latitude, pos.coords.longitude,
-                      building.lat, building.lng)
+            haversine(pos.coords.latitude, pos.coords.longitude, building.lat, building.lng)
           );
           updateDistance(dist);
-
           if (dist <= building.radius && !isArrived) {
-            // ✅ ARRIVED — mark flag first, then trigger
             isArrived = true;
             arrived(activeBldg);
           }
         },
         err => {
-          const msgs = {
-            1: 'Location access denied. Tap "I\'m already here" to proceed.',
-            2: 'GPS signal unavailable. Move outdoors and try again.',
-            3: 'GPS timed out. Retrying…',
-          };
-          setGpsStatus('error', msgs[err.code] || 'GPS error');
+          const m = { 1:'Location access denied', 2:'GPS unavailable', 3:'GPS timed out' };
+          setGpsStatus('error', m[err.code] || 'GPS error');
         },
-        { enableHighAccuracy: true, maximumAge: 4000, timeout: 15000 }
+        { enableHighAccuracy:true, maximumAge:4000, timeout:15000 }
       );
     }
 
-    /* ── Update the distance ring ── */
+    /* ── Update distance ring ── */
     function updateDistance(metres) {
       setGpsStatus('active', 'GPS locked ✓');
       const ring  = document.getElementById('dist-ring');
       const val   = document.getElementById('dist-value');
       const label = document.getElementById('dist-label');
-
+      ring.classList.remove('arrived');
       if (metres > 1000) {
-        val.textContent   = (metres / 1000).toFixed(1) + ' km';
+        val.textContent   = (metres/1000).toFixed(1)+' km';
         label.textContent = 'away';
       } else {
         val.textContent   = metres;
         label.textContent = 'meters away';
       }
-      ring.classList.remove('arrived');
     }
 
-    /* ── Triggered when GPS enters the building radius ── */
+    /* ── Arrived ── */
     function arrived(key) {
       stopWatch();
+      if (navigator.vibrate) navigator.vibrate([200,100,200]);
 
-      // Vibrate to confirm arrival
-      if (navigator.vibrate) navigator.vibrate([150, 80, 150]);
-
-      // Update UI
+      // Update ring UI
       const ring = document.getElementById('dist-ring');
       ring.classList.add('arrived');
       document.getElementById('dist-value').textContent  = '✓';
@@ -702,70 +424,129 @@
       document.getElementById('ov-subtitle').textContent = 'Switching to indoor navigation…';
       setGpsStatus('active', 'Inside building — handing off');
 
-      // LAYER 1: Fire a notification (pops up on top of Google Maps)
-      //          User taps it → browser opens map.html directly
+      // Fire notification via Service Worker (works from background)
+      // Clicking the notification opens map.html directly via sw.js
       fireArrivalNotification(key);
 
-      // LAYER 2: If tab is already visible (e.g. in simulation), navigate now
+      // If THIS tab is currently visible → navigate immediately (laptop/simulation case)
       if (!document.hidden) {
         doNavigate(key);
       }
-      // LAYER 3: visibilitychange listener (top of script) fires when
-      //          user switches back from Maps app/tab manually
+      // If hidden (Maps tab is in front) → user taps notification → sw.js opens map.html
     }
 
-    /* ── Navigate to map.html (reliable replace, no double setTimeout) ── */
-    function doNavigate(key) {
+    /* ── Fire SW notification — clicking it opens map.html ── */
+    async function fireArrivalNotification(key) {
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      const b = BUILDINGS[key] || {};
       localStorage.setItem('building', key);
-      document.body.style.transition = 'opacity 0.5s ease';
-      document.body.style.opacity = '0';
-      // Use replace() so back button doesn't return to the overlay state
-      setTimeout(() => { window.location.replace('map.html'); }, 500);
+
+      if (swReg) {
+        // Service Worker notification: notificationclick in sw.js → clients.openWindow('map.html')
+        // This is the ONLY reliable way to open a URL when a notification is tapped cross-app
+        try {
+          await swReg.update();
+          swReg.showNotification("📍 You've arrived!", {
+            body:             `Tap to start indoor navigation at ${b.name}.`,
+            icon:             'icons/icon-192.png',
+            tag:              'campusnav-arrival',
+            requireInteraction: true,
+            data:             { building: key },
+            vibrate:          [200,100,200],
+          });
+        } catch(e) { console.warn('SW notification failed:', e); }
+      } else {
+        // Fallback plain notification
+        const n = new Notification("📍 You've arrived!", {
+          body: `Tap to start indoor navigation at ${b.name}.`,
+          requireInteraction: true,
+        });
+        n.onclick = () => { n.close(); doNavigate(key); };
+      }
     }
 
-    /* ── "I'm already here" button ── */
+    /* ── "I'm already here" ── */
     function skipToIndoor() {
       stopWatch();
       isArrived = true;
       doNavigate(activeBldg);
     }
 
-    /* ── Close overlay (go back to building selection) ── */
+    /* ── Navigate to map.html ── */
+    function doNavigate(key) {
+      localStorage.setItem('building', key);
+      document.body.style.transition = 'opacity 0.5s ease';
+      document.body.style.opacity    = '0';
+      setTimeout(() => window.location.replace('map.html'), 500);
+    }
+
+    /* ── Close overlay ── */
     function closeOverlay() {
       stopWatch();
       activeBldg = null;
       isArrived  = false;
+      clearTimeout(simTimer);
       document.getElementById('arrival-overlay').classList.remove('visible');
     }
 
-    /* ── Stop GPS watch ── */
+    /* ── Stop GPS ── */
     function stopWatch() {
-      if (watchId !== null) {
-        navigator.geolocation.clearWatch(watchId);
-        watchId = null;
-      }
+      if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
     }
 
-    /* ── GPS status pill helper ── */
+    /* ── GPS pill helper ── */
     function setGpsStatus(state, text) {
       const dot  = document.getElementById('gps-dot');
       const span = document.getElementById('gps-text');
-      dot.className  = 'gps-dot' + (state === 'active' ? ' active' : state === 'error' ? ' error' : '');
+      dot.className    = 'gps-dot' + (state==='active'?' active': state==='error'?' error':'');
       span.textContent = text;
     }
 
+    /* ══════════════════════════════════════
+       DEV: AUTO SIMULATION — remove before production
+    ══════════════════════════════════════ */
+    let simTimer = null;
+
+    function startSimCountdown() {
+      clearTimeout(simTimer);
+      let count = 5;
+      const el = document.getElementById('test-countdown');
+      if (el) el.textContent = count;
+      const tick = setInterval(() => {
+        count--;
+        if (el) el.textContent = count <= 0 ? '🚀' : count;
+        if (count <= 0) { clearInterval(tick); simulateWalk(); }
+      }, 1000);
+    }
+
+    function simulateWalk() {
+      if (!activeBldg || isArrived) return;
+      const steps = [320, 180, 80, 35, 12, 6];
+      let i = 0;
+      setGpsStatus('active', 'GPS locked ✓');
+      const walk = setInterval(() => {
+        updateDistance(steps[i]);
+        i++;
+        if (i >= steps.length) {
+          clearInterval(walk);
+          setTimeout(() => {
+            if (!isArrived) { isArrived = true; arrived(activeBldg); }
+          }, 300);
+        }
+      }, 400);
+    }
+
     /* ── Floating particles ── */
-    const particlesContainer = document.getElementById('particles');
+    const pc = document.getElementById('particles');
     for (let i = 0; i < 20; i++) {
       const p = document.createElement('div');
       p.classList.add('particle');
-      const size = Math.random() * 4 + 2;
-      p.style.width  = size + 'px';
-      p.style.height = size + 'px';
-      p.style.left   = Math.random() * 100 + 'vw';
-      p.style.animationDuration = (Math.random() * 10 + 10) + 's';
-      p.style.animationDelay    = (Math.random() * 5) + 's';
-      particlesContainer.appendChild(p);
+      const s = Math.random()*4+2;
+      p.style.width  = s+'px'; p.style.height = s+'px';
+      p.style.left   = Math.random()*100+'vw';
+      p.style.animationDuration = (Math.random()*10+10)+'s';
+      p.style.animationDelay    = (Math.random()*5)+'s';
+      pc.appendChild(p);
     }
   </script>
 
