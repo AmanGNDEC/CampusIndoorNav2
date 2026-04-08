@@ -259,6 +259,71 @@
     }
     .arrival-close:hover { color: #fff; }
 
+    /* DEV: simulate arrival countdown */
+    .test-bar {
+      margin-top: 16px;
+      padding: 10px 14px;
+      background: rgba(234, 179, 8, 0.08);
+      border: 1px dashed rgba(234, 179, 8, 0.4);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .test-bar span {
+      font-size: 11px;
+      color: #ca8a04;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    .test-countdown {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: rgba(234,179,8,0.2);
+      border: 2px solid rgba(234,179,8,0.6);
+      color: #fbbf24;
+      font-size: 18px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      animation: countPulse 1s ease infinite;
+    }
+    @keyframes countPulse {
+      0%,100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(234,179,8,0.4); }
+      50%      { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(234,179,8,0); }
+    }
+
+    /* Notification permission nudge */
+    .notif-bar {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(99,102,241,0.08);
+      border: 1px dashed rgba(99,102,241,0.35);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .notif-bar span {
+      font-size: 11px;
+      color: #a5b4fc;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+    .notif-allow-btn {
+      padding: 6px 14px;
+      background: rgba(99,102,241,0.2);
+      border: 1px solid rgba(99,102,241,0.5);
+      border-radius: 8px;
+      color: #a5b4fc;
+      font-size: 12px; font-weight: 600;
+      cursor: pointer; white-space: nowrap;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .notif-allow-btn:hover { background: rgba(99,102,241,0.35); }
+
     /* ── MOBILE ── */
     @media (max-width: 768px) {
       body { padding: 1.5rem 1rem; justify-content: flex-start; padding-top: 2.5rem; }
@@ -361,6 +426,18 @@
       <p class="arrival-note">
         📡 CampusNav will switch to indoor mode automatically<br>when you step inside the building.
       </p>
+
+      <!-- Notification permission nudge (shown if permission not yet granted) -->
+      <div class="notif-bar" id="notif-bar" style="display:none">
+        <span>🔔 Allow notifications to auto-switch from Maps</span>
+        <button class="notif-allow-btn" onclick="askNotifPermission()">Allow</button>
+      </div>
+
+      <!-- DEV TEST BAR — remove before production -->
+      <div class="test-bar" id="test-bar">
+        <span>🧪 <strong>Dev Mode</strong><br>Auto-simulating arrival in…</span>
+        <div class="test-countdown" id="test-countdown">2</div>
+      </div>
     </div>
   </div>
 
@@ -434,11 +511,125 @@
       // Reset GPS UI
       setGpsStatus('acquiring', 'Acquiring GPS…');
 
-      // Try to open Maps automatically
-      window.open(mapsUrl, '_blank');
+      // Request notification permission + register service worker
+      initNotifications();
+
+      // Open Google Maps in a NEW TAB so browser URL stays on select.html
+      // (If we use location.href Maps would replace this page — notification click breaks)
+      window.open(
+        `https://www.google.com/maps/dir/?api=1&destination=${b.lat},${b.lng}&travelmode=walking`,
+        '_blank'
+      );
 
       // Start geofence watch
       startGeofenceWatch(b);
+
+      // DEV: auto-simulate arrival after 2 second countdown
+      startSimCountdown();
+    }
+
+    /* ── Register Service Worker ── */
+    let swReg = null;
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => { swReg = reg; })
+        .catch(err => console.warn('SW registration failed:', err));
+    }
+
+    /* ── Notification setup ── */
+    function initNotifications() {
+      if (!('Notification' in window)) return;
+      if (Notification.permission === 'granted') {
+        document.getElementById('notif-bar').style.display = 'none';
+      } else if (Notification.permission === 'default') {
+        document.getElementById('notif-bar').style.display = 'flex';
+        Notification.requestPermission().then(p => {
+          if (p === 'granted')
+            document.getElementById('notif-bar').style.display = 'none';
+        });
+      }
+    }
+
+    function askNotifPermission() {
+      Notification.requestPermission().then(p => {
+        if (p === 'granted')
+          document.getElementById('notif-bar').style.display = 'none';
+      });
+    }
+
+    /* ── Fire arrival notification via Service Worker ──
+       SW-based notifications are the ONLY reliable way to open a specific
+       URL when the user taps a notification on mobile (cross-app).
+       The notificationclick event in sw.js calls clients.openWindow('map.html'). */
+    async function fireArrivalNotification(key) {
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      const b = BUILDINGS[key] || {};
+
+      localStorage.setItem('building', key);
+
+      // Use service worker registration for reliable notification click handling
+      if (swReg) {
+        await swReg.update(); // make sure SW is current
+        swReg.showNotification('📍 You\'ve arrived!', {
+          body: `Step inside ${b.name || 'the building'} — tap to start indoor navigation.`,
+          icon:             'icons/icon-192.png',
+          badge:            'icons/icon-192.png',
+          tag:              'campusnav-arrival',  // replaces any earlier arrival notif
+          requireInteraction: true,               // stays until tapped
+          data:             { building: key },    // passed to notificationclick in sw.js
+          vibrate:          [150, 80, 150],
+        });
+      } else {
+        // Fallback: plain Notification (onclick may not work cross-app but better than nothing)
+        const notif = new Notification('📍 You\'ve arrived!', {
+          body: `Tap to start indoor navigation at ${b.name || 'the building'}.`,
+          tag: 'campusnav-arrival',
+          requireInteraction: true,
+        });
+        notif.onclick = () => { notif.close(); doNavigate(key); };
+      }
+    }
+
+    /* ── DEV: Countdown then auto-simulate arrival ── */
+    let simTimer = null;
+
+    function startSimCountdown() {
+      clearTimeout(simTimer);
+      let count = 2;
+      const el = document.getElementById('test-countdown');
+      if (el) el.textContent = count;
+
+      const tick = setInterval(() => {
+        count--;
+        if (el) el.textContent = count <= 0 ? '🚀' : count;
+        if (count <= 0) {
+          clearInterval(tick);
+          simulateArrival();
+        }
+      }, 1000);
+    }
+
+    function simulateArrival() {
+      if (!activeBldg || isArrived) return;
+
+      // Animate distance decreasing: 150 → 80 → 35 → 8m to simulate walking up
+      const steps = [150, 80, 35, 8];
+      let i = 0;
+      setGpsStatus('active', 'GPS locked ✓');
+      const walk = setInterval(() => {
+        updateDistance(steps[i]);
+        i++;
+        if (i >= steps.length) {
+          clearInterval(walk);
+          // At 8m — trigger arrived
+          setTimeout(() => {
+            if (!isArrived) {
+              isArrived = true;
+              arrived(activeBldg);
+            }
+          }, 400);
+        }
+      }, 350);
     }
 
     /* ── GPS geofence watch ── */
@@ -511,11 +702,16 @@
       document.getElementById('ov-subtitle').textContent = 'Switching to indoor navigation…';
       setGpsStatus('active', 'Inside building — handing off');
 
-      // Navigate immediately if tab is visible; otherwise visibilitychange will handle it
+      // LAYER 1: Fire a notification (pops up on top of Google Maps)
+      //          User taps it → browser opens map.html directly
+      fireArrivalNotification(key);
+
+      // LAYER 2: If tab is already visible (e.g. in simulation), navigate now
       if (!document.hidden) {
         doNavigate(key);
       }
-      // (if tab is hidden/background, visibilitychange listener above fires on tab-switch)
+      // LAYER 3: visibilitychange listener (top of script) fires when
+      //          user switches back from Maps app/tab manually
     }
 
     /* ── Navigate to map.html (reliable replace, no double setTimeout) ── */
