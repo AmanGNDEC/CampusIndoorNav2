@@ -894,6 +894,7 @@ const NAV_NODES = {
   'GF_W_N':   {x:3.0,  y:7.5,  floor:0},
   'GF_W_TOP': {x:3.5,  y:5.0,  floor:0},
   'GF_NW_JN': {x:4.8,  y:3.2,  floor:0},
+  'GF_G13':   {x:7.0,  y:1.5,  floor:0},  // inside G-13 room
   'GF_ENT_L': {x:17.9, y:6.2, floor:0},
   'GF_ENT_R': {x:17.9, y:11.0, floor:0},
   'GF_STW_APP':{x:8.75, y:13.8, floor:0},
@@ -965,6 +966,7 @@ const NAV_EDGES = [
   ['GF_W_N',   'GF_W_TOP'],
   ['GF_W_TOP', 'GF_NW_JN'],
   ['GF_NW_JN', 'GF_N_W'],
+  ['GF_N_W',   'GF_G13'],   // branch into G-13 from north corridor
   ['GF_S_W',     'GF_STW_APP'],
   ['GF_STW_APP', 'GF_STAIRW'],
   ['GF_NE_JN',   'GF_STE_APP'],
@@ -1021,7 +1023,7 @@ const NAV_EDGES = [
 const ROOM_NODE = {
   'Entrance L':  'GF_ENT_L',
   'Entrance R':  'GF_ENT_R',
-  'G-13':        'GF_NW_JN',
+  'G-13':        'GF_G13',   // fixed: own node, not shared with Washroom
   'Washroom':    'GF_NW_JN',
   'G-12':        'GF_N_E',
   'DBMS Lab':    'GF_NE_JN',

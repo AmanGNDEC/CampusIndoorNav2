@@ -2,20 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Select Building - CampusNav</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Outfit', sans-serif;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
 
     body {
       min-height: 100vh;
+      min-height: 100dvh;
       background-color: #0f172a;
       display: flex;
       flex-direction: column;
@@ -27,7 +23,7 @@
       padding: 2rem;
     }
 
-    /* Ambient animated background */
+    /* ── BACKGROUND ── */
     .bg-gradient {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -36,10 +32,9 @@
       z-index: 0;
       animation: gradientShift 10s ease infinite;
     }
-
     @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
@@ -59,42 +54,31 @@
       opacity: 0;
       animation: fadeDown 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
     }
-
     @keyframes fadeDown {
       from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-
     header h1 {
-      font-size: 46px;
-      font-weight: 700;
-      margin-bottom: 10px;
+      font-size: 46px; font-weight: 700; margin-bottom: 10px;
       background: linear-gradient(to right, #ffffff, #a5b4fc);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -1px;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; letter-spacing: -1px;
     }
+    header p { font-size: 18px; color: #94a3b8; font-weight: 300; }
 
-    header p {
-      font-size: 18px;
-      color: #94a3b8;
-      font-weight: 300;
-    }
-
+    /* ── BUILDING CARDS ── */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 25px;
       width: 100%;
     }
-
     .card {
       position: relative;
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255,255,255,0.03);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 24px;
       padding: 30px 25px;
       cursor: pointer;
@@ -107,238 +91,462 @@
       transform: translateY(40px);
       animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
     }
-
-    @keyframes fadeInUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
     .card::before {
       content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      z-index: 1;
+      opacity: 0; transition: opacity 0.4s ease; z-index: 1;
     }
-
-    .card:hover {
-      transform: translateY(-8px) scale(1.02);
-      border-color: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
-                  0 0 20px rgba(79, 172, 254, 0.2);
-    }
-
-    .card:hover::before {
-      opacity: 1;
-    }
-
+    .card:hover { transform: translateY(-8px) scale(1.02); border-color: rgba(255,255,255,0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(79,172,254,0.2); }
+    .card:hover::before { opacity: 1; }
     .icon-wrap {
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.05);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 28px;
-      margin-bottom: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.4s ease;
-      position: relative;
-      z-index: 2;
+      width: 60px; height: 60px; border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      display: flex; justify-content: center; align-items: center;
+      font-size: 28px; margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.4s ease; position: relative; z-index: 2;
     }
+    .card:hover .icon-wrap { background: linear-gradient(135deg,#4facfe,#00f2fe); transform: scale(1.1) rotate(-5deg); border-color: transparent; box-shadow: 0 10px 20px rgba(0,242,254,0.3); }
+    .card h3 { font-size: 24px; font-weight: 600; margin-bottom: 8px; color: #f8fafc; position: relative; z-index: 2; }
+    .card p  { font-size: 14px; color: #cbd5e1; font-weight: 300; line-height: 1.4; position: relative; z-index: 2; }
 
-    .card:hover .icon-wrap {
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      transform: scale(1.1) rotate(-5deg);
-      border-color: transparent;
-      box-shadow: 0 10px 20px rgba(0, 242, 254, 0.3);
-    }
-
-    .card h3 {
-      font-size: 24px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #f8fafc;
-      position: relative;
-      z-index: 2;
-    }
-
-    .card p {
-      font-size: 14px;
-      color: #cbd5e1;
-      font-weight: 300;
-      line-height: 1.4;
-      position: relative;
-      z-index: 2;
-    }
-
-    /* Floating particles for depth */
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      background: white;
-      opacity: 0.1;
-      pointer-events: none;
-      animation: floatUp infinite linear;
-    }
-
+    /* Particles */
+    .particle { position: absolute; border-radius: 50%; background: white; opacity: 0.1; pointer-events: none; animation: floatUp infinite linear; }
     @keyframes floatUp {
       from { transform: translateY(100vh) scale(0.5); opacity: 0; }
-      10% { opacity: 0.2; }
-      90% { opacity: 0.2; }
-      to { transform: translateY(-100px) scale(1.5); opacity: 0; }
+      10%  { opacity: 0.2; }
+      90%  { opacity: 0.2; }
+      to   { transform: translateY(-100px) scale(1.5); opacity: 0; }
     }
 
-    /* ── MOBILE RESPONSIVE ── */
+    /* ══════════════════════════════════════════
+       ARRIVAL OVERLAY  (geofence handoff screen)
+    ══════════════════════════════════════════ */
+    #arrival-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(10, 15, 30, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      animation: overlayIn 0.4s ease forwards;
+    }
+    #arrival-overlay.visible { display: flex; }
+    @keyframes overlayIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .arrival-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 28px;
+      padding: 40px 32px 32px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      animation: cardPop 0.45s cubic-bezier(0.23,1,0.32,1) forwards;
+    }
+    @keyframes cardPop {
+      from { transform: scale(0.9) translateY(20px); opacity: 0; }
+      to   { transform: scale(1) translateY(0);      opacity: 1; }
+    }
+
+    /* Building icon + name */
+    .arrival-icon { font-size: 52px; margin-bottom: 12px; }
+    .arrival-card h2 {
+      font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 6px;
+    }
+    .arrival-subtitle {
+      font-size: 14px; color: #94a3b8; font-weight: 300; margin-bottom: 28px;
+    }
+
+    /* Animated distance ring */
+    .distance-ring {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      border: 3px solid rgba(115,103,240,0.3);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      position: relative;
+      background: rgba(115,103,240,0.06);
+    }
+    .distance-ring::before {
+      content: '';
+      position: absolute; inset: -8px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-top-color: #7367f0;
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .distance-ring.arrived { border-color: rgba(16,185,129,0.5); background: rgba(16,185,129,0.08); }
+    .distance-ring.arrived::before { border-top-color: #10b981; }
+
+    .distance-value {
+      font-size: 30px; font-weight: 700; color: #a5b4fc;
+      line-height: 1;
+    }
+    .distance-ring.arrived .distance-value { color: #10b981; }
+    .distance-label { font-size: 11px; color: #64748b; margin-top: 4px; }
+
+    /* GPS status pill */
+    .gps-status {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 12px; color: #94a3b8;
+      margin-bottom: 28px;
+    }
+    .gps-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #64748b;
+      transition: background 0.4s;
+    }
+    .gps-dot.active   { background: #10b981; box-shadow: 0 0 8px #10b981; animation: gpsPulse 1.5s infinite; }
+    .gps-dot.error    { background: #ef4444; }
+    @keyframes gpsPulse {
+      0%,100% { box-shadow: 0 0 4px #10b981; }
+      50%      { box-shadow: 0 0 12px #10b981, 0 0 20px rgba(16,185,129,0.3); }
+    }
+
+    /* Action buttons */
+    .arrival-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+    .arrival-btn {
+      width: 100%; padding: 14px;
+      border-radius: 50px; border: none;
+      font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: all 0.25s ease;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      text-decoration: none;
+    }
+    .arrival-btn.primary {
+      background: linear-gradient(135deg, #7367f0, #4facfe);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(115,103,240,0.4);
+    }
+    .arrival-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(115,103,240,0.5); }
+    .arrival-btn.secondary {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.8);
+    }
+    .arrival-btn.secondary:hover { background: rgba(255,255,255,0.12); }
+
+    .arrival-note {
+      font-size: 11px; color: #475569;
+      margin-top: 18px; line-height: 1.5;
+    }
+
+    /* close X */
+    .arrival-close {
+      position: absolute; top: 16px; right: 18px;
+      background: none; border: none; color: #64748b;
+      font-size: 22px; cursor: pointer; line-height: 1;
+      transition: color 0.2s;
+    }
+    .arrival-close:hover { color: #fff; }
+
+    /* ── MOBILE ── */
     @media (max-width: 768px) {
-      body {
-        padding: 1.5rem 1rem;
-        justify-content: flex-start;
-        padding-top: 2.5rem;
-      }
-      header {
-        margin-bottom: 28px;
-      }
-      header h1 {
-        font-size: 30px;
-        letter-spacing: -0.5px;
-      }
-      header p {
-        font-size: 14px;
-      }
-      .grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-      }
-      .card {
-        padding: 20px 16px;
-        border-radius: 18px;
-      }
-      .icon-wrap {
-        width: 50px;
-        height: 50px;
-        font-size: 22px;
-        margin-bottom: 14px;
-        border-radius: 12px;
-      }
-      .card h3 {
-        font-size: 18px;
-      }
-      .card p {
-        font-size: 12px;
-      }
+      body { padding: 1.5rem 1rem; justify-content: flex-start; padding-top: 2.5rem; }
+      header { margin-bottom: 28px; }
+      header h1 { font-size: 30px; letter-spacing: -0.5px; }
+      header p  { font-size: 14px; }
+      .grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+      .card { padding: 20px 16px; border-radius: 18px; }
+      .icon-wrap { width: 50px; height: 50px; font-size: 22px; margin-bottom: 14px; border-radius: 12px; }
+      .card h3 { font-size: 18px; }
+      .card p  { font-size: 12px; }
+      .arrival-card { padding: 32px 22px 26px; }
     }
-
     @media (max-width: 400px) {
-      body {
-        padding: 1.5rem 0.75rem;
-      }
-      header h1 {
-        font-size: 24px;
-      }
-      .grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-      .card {
-        flex-direction: row;
-        align-items: center;
-        padding: 16px;
-        gap: 14px;
-      }
-      .icon-wrap {
-        margin-bottom: 0;
-        flex-shrink: 0;
-      }
-      .card h3 {
-        font-size: 17px;
-        margin-bottom: 4px;
-      }
+      body { padding: 1.5rem 0.75rem; }
+      header h1 { font-size: 24px; }
+      .grid { grid-template-columns: 1fr; gap: 12px; }
+      .card { flex-direction: row; align-items: center; padding: 16px; gap: 14px; }
+      .icon-wrap { margin-bottom: 0; flex-shrink: 0; }
+      .card h3 { font-size: 17px; margin-bottom: 4px; }
     }
   </style>
 </head>
 <body>
 
   <div class="bg-gradient"></div>
-  
-  <!-- Particles container -->
   <div id="particles"></div>
 
   <div class="content-wrapper">
     <header>
       <h1>Select Your Destination</h1>
-      <p>Choose a building to start your indoor journey.</p>
+      <p>Choose a building — we'll guide you there &amp; inside.</p>
     </header>
 
     <div class="grid">
-      <div class="card" onclick="selectBuilding('CSE')" style="animation-delay: 0.1s">
+      <div class="card" onclick="selectBuilding('CSE')" style="animation-delay:0.1s">
         <div class="icon-wrap">💻</div>
         <h3>CSE Dept</h3>
-        <p>Computer Science & Engineering</p>
+        <p>Computer Science &amp; Engineering</p>
       </div>
-
-      <div class="card" onclick="selectBuilding('ECE')" style="animation-delay: 0.2s">
+      <div class="card" onclick="selectBuilding('ECE')" style="animation-delay:0.2s">
         <div class="icon-wrap">📡</div>
         <h3>ECE Dept</h3>
-        <p>Electronics & Communication</p>
+        <p>Electronics &amp; Communication</p>
       </div>
-
-      <div class="card" onclick="selectBuilding('MECH')" style="animation-delay: 0.3s">
+      <div class="card" onclick="selectBuilding('MECH')" style="animation-delay:0.3s">
         <div class="icon-wrap">⚙️</div>
         <h3>Mechanical</h3>
-        <p>Mechanical Engineering & Labs</p>
+        <p>Mechanical Engineering &amp; Labs</p>
       </div>
-
-      <div class="card" onclick="selectBuilding('AS')" style="animation-delay: 0.4s">
+      <div class="card" onclick="selectBuilding('AS')" style="animation-delay:0.4s">
         <div class="icon-wrap">🔬</div>
         <h3>Applied Science</h3>
-        <p>Physics, Chemistry & Math</p>
+        <p>Physics, Chemistry &amp; Math</p>
       </div>
-
-      <div class="card" onclick="selectBuilding('IT')" style="animation-delay: 0.5s">
+      <div class="card" onclick="selectBuilding('IT')" style="animation-delay:0.5s">
         <div class="icon-wrap">🌐</div>
         <h3>IT Dept</h3>
         <p>Information Technology</p>
       </div>
-
-      <div class="card" onclick="selectBuilding('POLY')" style="animation-delay: 0.6s">
+      <div class="card" onclick="selectBuilding('POLY')" style="animation-delay:0.6s">
         <div class="icon-wrap">🏗️</div>
         <h3>Polytechnic</h3>
-        <p>Diploma & Technical Studies</p>
+        <p>Diploma &amp; Technical Studies</p>
       </div>
     </div>
   </div>
 
+  <!-- ══ ARRIVAL OVERLAY ══ -->
+  <div id="arrival-overlay">
+    <div class="arrival-card">
+      <button class="arrival-close" onclick="closeOverlay()" title="Back">✕</button>
+
+      <div class="arrival-icon" id="ov-icon">🏛️</div>
+      <h2 id="ov-name">Building</h2>
+      <p class="arrival-subtitle" id="ov-subtitle">Google Maps is guiding you outdoors.</p>
+
+      <!-- GPS status -->
+      <div class="gps-status">
+        <div class="gps-dot" id="gps-dot"></div>
+        <span id="gps-text">Acquiring GPS…</span>
+      </div>
+
+      <!-- Distance ring -->
+      <div class="distance-ring" id="dist-ring">
+        <div class="distance-value" id="dist-value">--</div>
+        <div class="distance-label" id="dist-label">meters away</div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="arrival-actions">
+        <a class="arrival-btn primary" id="maps-link" href="#" target="_blank" rel="noopener noreferrer">
+          🗺️ Open Google Maps
+        </a>
+        <button class="arrival-btn secondary" onclick="skipToIndoor()">
+          I'm already here →
+        </button>
+      </div>
+
+      <p class="arrival-note">
+        📡 CampusNav will switch to indoor mode automatically<br>when you step inside the building.
+      </p>
+    </div>
+  </div>
+
   <script>
-    // Create random floating particles for depth effect
-    const particlesContainer = document.getElementById('particles');
-    for (let i = 0; i < 20; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
-      
-      const size = Math.random() * 4 + 2;
-      particle.style.width = size + 'px';
-      particle.style.height = size + 'px';
-      
-      particle.style.left = Math.random() * 100 + 'vw';
-      particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-      particle.style.animationDelay = (Math.random() * 5) + 's';
-      
-      particlesContainer.appendChild(particle);
+    /* ══════════════════════════════════════════════════
+       BUILDING REGISTRY
+       ⚠️  Update lat/lng to your actual building GPS coords.
+           Use Google Maps → right-click → "What's here?" to get exact coords.
+    ══════════════════════════════════════════════════ */
+    const BUILDINGS = {
+      CSE:  { name: 'CSE Department',       icon: '💻', lat: 30.85985962965969, lng: 75.86015712632643, radius: 50 },
+      ECE:  { name: 'ECE Department',       icon: '📡', lat: 30.90770, lng: 75.85800, radius: 50 },
+      MECH: { name: 'Mechanical Dept',      icon: '⚙️', lat: 30.90730, lng: 75.85700, radius: 50 },
+      AS:   { name: 'Applied Science Dept', icon: '🔬', lat: 30.90750, lng: 75.85740, radius: 50 },
+      IT:   { name: 'IT Department',        icon: '🌐', lat: 30.90810, lng: 75.85730, radius: 50 },
+      POLY: { name: 'Polytechnic Block',    icon: '🏗️', lat: 30.90710, lng: 75.85680, radius: 50 },
+    };
+
+    let watchId      = null;   // geolocation watch handle
+    let activeBldg   = null;   // current building key
+    let mapsOpened   = false;  // whether Maps was opened
+
+    /* ── Haversine distance (metres) ── */
+    function haversine(lat1, lng1, lat2, lng2) {
+      const R = 6371000;
+      const toRad = d => d * Math.PI / 180;
+      const dLat = toRad(lat2 - lat1);
+      const dLng = toRad(lng2 - lng1);
+      const a = Math.sin(dLat/2)**2 +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng/2)**2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
 
-    function selectBuilding(name) {
-      localStorage.setItem("building", name);
-      
-      // Page exit animation before navigating
+    /* ── Main entry point when a card is tapped ── */
+    function selectBuilding(key) {
+      const b = BUILDINGS[key];
+      if (!b) { goToMap(key); return; }
+
+      activeBldg = key;
+      localStorage.setItem('building', key);
+
+      // Populate overlay
+      document.getElementById('ov-icon').textContent     = b.icon;
+      document.getElementById('ov-name').textContent     = b.name;
+      document.getElementById('ov-subtitle').textContent = 'Google Maps is guiding you outdoors.';
+      document.getElementById('dist-value').textContent  = '--';
+      document.getElementById('dist-label').textContent  = 'meters away';
+      document.getElementById('dist-ring').classList.remove('arrived');
+
+      // Build Maps URL (walking, from current location → building coords)
+      const mapsUrl = `https://www.google.com/maps/dir/?api=1` +
+                      `&destination=${b.lat},${b.lng}` +
+                      `&travelmode=walking`;
+      document.getElementById('maps-link').href = mapsUrl;
+
+      // Show overlay
+      const overlay = document.getElementById('arrival-overlay');
+      overlay.classList.add('visible');
+
+      // Reset GPS UI
+      setGpsStatus('acquiring', 'Acquiring GPS…');
+
+      // Try to open Maps automatically
+      const mapsWin = window.open(mapsUrl, '_blank');
+      mapsOpened = !!mapsWin;
+
+      // Start geofence watch
+      startGeofenceWatch(b);
+    }
+
+    /* ── GPS geofence watch ── */
+    function startGeofenceWatch(building) {
+      if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+      }
+
+      if (!navigator.geolocation) {
+        setGpsStatus('error', 'GPS unavailable on this device');
+        return;
+      }
+
+      watchId = navigator.geolocation.watchPosition(
+        pos => {
+          const dist = Math.round(
+            haversine(pos.coords.latitude, pos.coords.longitude,
+                      building.lat, building.lng)
+          );
+          updateDistance(dist);
+
+          if (dist <= building.radius) {
+            // ✅ ARRIVED — switch to indoor nav
+            arrived(activeBldg);
+          }
+        },
+        err => {
+          const msgs = {
+            1: 'Location access denied. Tap "I\'m already here" to proceed.',
+            2: 'GPS signal unavailable. Move outdoors and try again.',
+            3: 'GPS timed out. Retrying…',
+          };
+          setGpsStatus('error', msgs[err.code] || 'GPS error');
+        },
+        { enableHighAccuracy: true, maximumAge: 4000, timeout: 15000 }
+      );
+    }
+
+    /* ── Update the distance ring ── */
+    function updateDistance(metres) {
+      setGpsStatus('active', 'GPS locked ✓');
+      const ring  = document.getElementById('dist-ring');
+      const val   = document.getElementById('dist-value');
+      const label = document.getElementById('dist-label');
+
+      if (metres > 1000) {
+        val.textContent   = (metres / 1000).toFixed(1) + ' km';
+        label.textContent = 'away';
+      } else {
+        val.textContent   = metres;
+        label.textContent = 'meters away';
+      }
+      ring.classList.remove('arrived');
+    }
+
+    /* ── Triggered when GPS enters the building radius ── */
+    function arrived(key) {
+      stopWatch();
+      const ring = document.getElementById('dist-ring');
+      ring.classList.add('arrived');
+      document.getElementById('dist-value').textContent  = '✓';
+      document.getElementById('dist-label').textContent  = 'You\'ve arrived!';
+      document.getElementById('ov-subtitle').textContent = 'Switching to indoor navigation…';
+      setGpsStatus('active', 'Inside building — handing off');
+
+      setTimeout(() => goToMap(key), 1200);
+    }
+
+    /* ── "I'm already here" button ── */
+    function skipToIndoor() {
+      stopWatch();
+      goToMap(activeBldg);
+    }
+
+    /* ── Navigate to map.html with fade ── */
+    function goToMap(key) {
+      localStorage.setItem('building', key);
       document.body.style.transition = 'opacity 0.5s ease';
       document.body.style.opacity = '0';
-      
-      setTimeout(() => {
-        window.location.href = "map.html";
-      }, 500);
+      setTimeout(() => { window.location.href = 'map.html'; }, 500);
+    }
+
+    /* ── Close overlay (go back to building selection) ── */
+    function closeOverlay() {
+      stopWatch();
+      activeBldg = null;
+      document.getElementById('arrival-overlay').classList.remove('visible');
+    }
+
+    /* ── Stop GPS watch ── */
+    function stopWatch() {
+      if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+      }
+    }
+
+    /* ── GPS status pill helper ── */
+    function setGpsStatus(state, text) {
+      const dot  = document.getElementById('gps-dot');
+      const span = document.getElementById('gps-text');
+      dot.className  = 'gps-dot' + (state === 'active' ? ' active' : state === 'error' ? ' error' : '');
+      span.textContent = text;
+    }
+
+    /* ── Floating particles ── */
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      const size = Math.random() * 4 + 2;
+      p.style.width  = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left   = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+      p.style.animationDelay    = (Math.random() * 5) + 's';
+      particlesContainer.appendChild(p);
     }
   </script>
 
