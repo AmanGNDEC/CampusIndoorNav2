@@ -294,6 +294,82 @@
     }
   }
 
+    /* ══ PWA INSTALL PROMPT ══ */
+    /* Android/Chrome: fixed bottom banner */
+    #install-banner {
+      display: none;
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      width: calc(100% - 32px); max-width: 420px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(115,103,240,0.4);
+      border-radius: 20px;
+      padding: 14px 16px;
+      display: none; align-items: center; gap: 12px;
+      z-index: 9999;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(115,103,240,0.2);
+      animation: slideUp 0.4s cubic-bezier(0.23,1,0.32,1);
+      backdrop-filter: blur(20px);
+    }
+    #install-banner.show { display: flex; }
+    @keyframes slideUp {
+      from { transform: translateX(-50%) translateY(80px); opacity: 0; }
+      to   { transform: translateX(-50%) translateY(0);   opacity: 1; }
+    }
+    .ib-icon { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; }
+    .ib-text { flex: 1; min-width: 0; }
+    .ib-text strong { display: block; font-size: 14px; color: #fff; font-weight: 700; }
+    .ib-text span   { font-size: 12px; color: #94a3b8; }
+    .ib-install {
+      padding: 9px 18px; border-radius: 50px; border: none;
+      background: linear-gradient(135deg,#7367f0,#4facfe);
+      color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;
+      white-space: nowrap; flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(115,103,240,0.4);
+    }
+    .ib-close {
+      background: none; border: none; color: #64748b;
+      font-size: 18px; cursor: pointer; flex-shrink: 0; padding: 4px;
+    }
+
+    /* iOS: bottom sheet */
+    #ios-sheet {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+      background: rgba(15,23,42,0.97);
+      border-top: 1px solid rgba(115,103,240,0.3);
+      border-radius: 24px 24px 0 0;
+      padding: 20px 24px;
+      padding-bottom: max(24px, env(safe-area-inset-bottom));
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+      animation: sheetUp 0.4s cubic-bezier(0.23,1,0.32,1);
+    }
+    #ios-sheet.show { display: block; }
+    @keyframes sheetUp {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+    .sheet-handle {
+      width: 40px; height: 4px; border-radius: 2px;
+      background: rgba(255,255,255,0.2); margin: 0 auto 18px;
+    }
+    .sheet-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .sheet-icon   { width: 52px; height: 52px; border-radius: 14px; }
+    .sheet-title  { font-size: 18px; font-weight: 700; color: #fff; }
+    .sheet-sub    { font-size: 13px; color: #64748b; margin-top: 2px; }
+    .sheet-steps  { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .sheet-step   { display: flex; align-items: flex-start; gap: 12px; }
+    .sheet-num    {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: rgba(115,103,240,0.25); border: 1px solid rgba(115,103,240,0.4);
+      color: #a5b4fc; font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .sheet-step-text { font-size: 14px; color: #cbd5e1; line-height: 1.5; padding-top: 3px; }
+    .sheet-dismiss {
+      width: 100%; padding: 12px; border-radius: 14px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      color: #94a3b8; font-size: 14px; cursor: pointer;
+    }
   </style>
 </head>
 <body class="lost">
@@ -324,6 +400,48 @@
 
       </div>
     </div>
+  </div>
+
+  <!-- Android/Chrome install banner -->
+  <div id="install-banner">
+    <img class="ib-icon" src="icons/icon-192.png" alt="CampusNav">
+    <div class="ib-text">
+      <strong>Install CampusNav</strong>
+      <span>Get notifications &amp; offline access</span>
+    </div>
+    <button class="ib-install" onclick="triggerInstall()">Install</button>
+    <button class="ib-close"  onclick="dismissInstall()">✕</button>
+  </div>
+
+  <!-- iOS Safari bottom sheet -->
+  <div id="ios-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <img class="sheet-icon" src="icons/icon-192.png" alt="">
+      <div>
+        <div class="sheet-title">Install CampusNav</div>
+        <div class="sheet-sub">Add to Home Screen for notifications</div>
+      </div>
+    </div>
+    <div class="sheet-steps">
+      <div class="sheet-step">
+        <div class="sheet-num">1</div>
+        <div class="sheet-step-text">Tap the <strong style="color:#fff">Share ⬆</strong> button at the bottom of Safari</div>
+      </div>
+      <div class="sheet-step">
+        <div class="sheet-num">2</div>
+        <div class="sheet-step-text">Tap <strong style="color:#fff">"Add to Home Screen"</strong></div>
+      </div>
+      <div class="sheet-step">
+        <div class="sheet-num">3</div>
+        <div class="sheet-step-text">Tap <strong style="color:#fff">"Add"</strong> — CampusNav icon appears on your Home Screen</div>
+      </div>
+      <div class="sheet-step">
+        <div class="sheet-num">4</div>
+        <div class="sheet-step-text">Open from Home Screen → tap <strong style="color:#fff">"Enable Notification"</strong> inside the app</div>
+      </div>
+    </div>
+    <button class="sheet-dismiss" onclick="dismissInstall()">Maybe later</button>
   </div>
 
   <script>
@@ -377,9 +495,69 @@
 
     function startNav() {
       document.body.style.opacity = '0';
-      setTimeout(() => {
-        window.location.href = "select.html";
-      }, 600);
+      setTimeout(() => { window.location.href = 'select.html'; }, 600);
+    }
+
+    /* ═══════════════════════════════════
+       SERVICE WORKER + PWA INSTALL PROMPT
+    ═══════════════════════════════════ */
+    let deferredPrompt = null;
+    const installed = localStorage.getItem('pwa_installed');
+
+    /* Register service worker */
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(console.warn);
+    }
+
+    /* Detect OS */
+    const isIOS     = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+    const isStandalone = window.navigator.standalone === true ||
+                         window.matchMedia('(display-mode: standalone)').matches;
+
+    /* Don't show prompt if already installed as PWA */
+    if (!isStandalone && !installed) {
+      if (isIOS) {
+        /* iOS: show bottom sheet after 1.5s */
+        setTimeout(() => {
+          document.getElementById('ios-sheet').classList.add('show');
+        }, 1500);
+      }
+    }
+
+    /* Android/Chrome: capture the install prompt */
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (!isStandalone && !installed) {
+        setTimeout(() => {
+          document.getElementById('install-banner').classList.add('show');
+        }, 1500);
+      }
+    });
+
+    /* Mark as installed after PWA install */
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem('pwa_installed', '1');
+      document.getElementById('install-banner').classList.remove('show');
+      deferredPrompt = null;
+    });
+
+    function triggerInstall() {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(c => {
+        if (c.outcome === 'accepted') localStorage.setItem('pwa_installed', '1');
+        deferredPrompt = null;
+        document.getElementById('install-banner').classList.remove('show');
+      });
+    }
+
+    function dismissInstall() {
+      document.getElementById('install-banner').classList.remove('show');
+      document.getElementById('ios-sheet').classList.remove('show');
+      /* Remind again after 24 hours */
+      localStorage.setItem('install_dismissed', Date.now());
     }
   </script>
 </body>
