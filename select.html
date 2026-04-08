@@ -187,12 +187,13 @@
       background:rgba(99,102,241,0.08); border:1px solid rgba(99,102,241,0.25);
       text-align:left;
     }
-    .ios-title { font-size:13px; font-weight:700; color:#a5b4fc; margin-bottom:10px; }
-    .ios-steps { display:flex; flex-direction:column; gap:7px; margin-bottom:10px; }
-    .ios-step  { font-size:12px; color:#cbd5e1; display:flex; align-items:center; gap:8px; line-height:1.4; }
-    .ios-num   { width:20px; height:20px; border-radius:50%; background:rgba(99,102,241,0.3); color:#a5b4fc; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-    .ios-share { font-size:14px; color:#60a5fa; }
-    .ios-note  { font-size:10px; color:#475569; line-height:1.5; border-top:1px solid rgba(255,255,255,0.06); padding-top:8px; }
+    .ios-title     { font-size:13px; font-weight:700; color:#a5b4fc; margin-bottom:8px; }
+    .ios-note-top  { font-size:11px; color:#94a3b8; margin-bottom:10px; line-height:1.5; }
+    .ios-steps     { display:flex; flex-direction:column; gap:8px; margin-bottom:10px; }
+    .ios-step      { font-size:12px; color:#cbd5e1; display:flex; align-items:flex-start; gap:8px; line-height:1.45; }
+    .ios-num       { width:20px; height:20px; border-radius:50%; background:rgba(99,102,241,0.3); color:#a5b4fc; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+    .ios-divider   { height:1px; background:rgba(255,255,255,0.07); margin:10px 0; }
+    .ios-note-bottom { font-size:11px; color:#64748b; line-height:1.5; }
 
     /* ── Arrived in-page banner (fallback for iOS / no notification) ── */
     #arrived-banner {
@@ -303,24 +304,30 @@
         </button>
       </div>
 
-      <!-- Notification permission: tap to enable (required by Android & iOS) -->
+      <!-- Notification / iOS section — shown based on platform -->
       <div class="notif-section" id="notif-section">
-        <!-- Default: show enable button -->
+
+        <!-- Android / desktop: enable button -->
         <button id="notif-btn" class="notif-request-btn" onclick="requestNotifPermission()">
-          🔔 Tap to enable arrival notification
+          🔔 Enable arrival notification
         </button>
-        <div id="notif-ok"     style="display:none" class="notif-ok">✅ Notification enabled — you'll be alerted on arrival</div>
-        <div id="notif-denied" style="display:none" class="notif-warn">⚠️ Notifications blocked. Use the "I'm already here" button on arrival.</div>
+        <div id="notif-ok" style="display:none" class="notif-ok">✅ Notifications on — you'll be alerted on arrival</div>
+        <div id="notif-denied" style="display:none" class="notif-warn">⚠️ Notifications blocked in browser settings.</div>
+
+        <!-- iOS Safari browser tab — notifications are impossible without Home Screen install -->
         <div id="notif-ios" style="display:none" class="notif-ios-card">
-          <div class="ios-title">📱 Enable on iPhone/iPad</div>
+          <div class="ios-title">📱 iPhone — How to get notifications</div>
+          <div class="ios-note-top">iOS Safari cannot send notifications in a browser tab. To enable them:</div>
           <div class="ios-steps">
-            <div class="ios-step"><span class="ios-num">1</span>Tap the <strong>Share</strong> button <span class="ios-share">⎙</span> in Safari</div>
+            <div class="ios-step"><span class="ios-num">1</span>Tap the <strong>Share</strong> button <strong>⬆</strong> at the bottom of Safari</div>
             <div class="ios-step"><span class="ios-num">2</span>Tap <strong>"Add to Home Screen"</strong></div>
-            <div class="ios-step"><span class="ios-num">3</span>Open CampusNav from your Home Screen</div>
-            <div class="ios-step"><span class="ios-num">4</span>Come back here and tap <strong>"Enable Notification"</strong></div>
+            <div class="ios-step"><span class="ios-num">3</span>Open <strong>CampusNav</strong> from your Home Screen</div>
+            <div class="ios-step"><span class="ios-num">4</span>Tap <strong>"Enable arrival notification"</strong> and allow</div>
           </div>
-          <div class="ios-note">Requires iOS 16.4 or later. The in-page banner below will still alert you on arrival.</div>
+          <div class="ios-divider"></div>
+          <div class="ios-note-bottom">Without installing: keep this tab open. The green banner below will appear when you arrive — tap it to switch to indoor navigation.</div>
         </div>
+
       </div>
 
       <!-- In-page arrived banner — shown when GPS detects arrival (works even on iOS without notifications) -->
@@ -523,20 +530,36 @@
       const btn     = document.getElementById('notif-btn');
       const ok      = document.getElementById('notif-ok');
       const denied  = document.getElementById('notif-denied');
-      const iosHint = document.getElementById('notif-ios');
+      const iosCard = document.getElementById('notif-ios');
 
-      if (!('Notification' in window)) {
-        // iOS Safari browser mode — no notification API
-        btn.style.display    = 'none';
-        ok.style.display     = 'none';
-        denied.style.display = 'none';
-        iosHint.style.display = 'block';
-        return;
+      const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
+      // A PWA running from Home Screen on iOS has navigator.standalone === true
+      const isIOSBrowser = isIOS && !window.navigator.standalone;
+      const hasNotifAPI  = 'Notification' in window;
+
+      if (isIOSBrowser || !hasNotifAPI) {
+        // iOS Safari browser tab — notifications fundamentally impossible
+        btn.style.display     = 'none';
+        ok.style.display      = 'none';
+        denied.style.display  = 'none';
+        iosCard.style.display = 'block';
+      } else if (Notification.permission === 'granted') {
+        btn.style.display     = 'none';
+        ok.style.display      = 'block';
+        denied.style.display  = 'none';
+        iosCard.style.display = 'none';
+      } else if (Notification.permission === 'denied') {
+        btn.style.display     = 'none';
+        ok.style.display      = 'none';
+        denied.style.display  = 'block';
+        iosCard.style.display = 'none';
+      } else {
+        // 'default' — show the enable button (Android / desktop)
+        btn.style.display     = 'flex';
+        ok.style.display      = 'none';
+        denied.style.display  = 'none';
+        iosCard.style.display = 'none';
       }
-      btn.style.display     = Notification.permission === 'default'  ? 'flex' : 'none';
-      ok.style.display      = Notification.permission === 'granted'  ? 'block' : 'none';
-      denied.style.display  = Notification.permission === 'denied'   ? 'block' : 'none';
-      iosHint.style.display = 'none';
     }
 
     function showNotifIosHint() {
