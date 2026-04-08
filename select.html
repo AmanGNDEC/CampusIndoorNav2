@@ -7,114 +7,100 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Outfit',sans-serif; }
 
     body {
-      min-height: 100vh; min-height: 100dvh;
-      background-color: #0f172a;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      overflow-x: hidden; position: relative;
-      color: white; padding: 2rem;
+      min-height:100vh; min-height:100dvh;
+      background:#0f172a;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      overflow-x:hidden; position:relative; color:white; padding:2rem;
     }
 
     .bg-gradient {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(-45deg, #0f172a, #3730A3, #7367f0, #1E1B4B);
-      background-size: 400% 400%;
-      z-index: 0; animation: gradientShift 10s ease infinite;
+      position:fixed; inset:0;
+      background:linear-gradient(-45deg,#0f172a,#3730A3,#7367f0,#1E1B4B);
+      background-size:400% 400%; z-index:0; animation:gradientShift 10s ease infinite;
     }
     @keyframes gradientShift {
-      0%  { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100%{ background-position: 0% 50%; }
+      0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
     }
 
     .content-wrapper {
-      position: relative; z-index: 10; width: 100%; max-width: 1000px;
-      display: flex; flex-direction: column; align-items: center;
+      position:relative; z-index:10; width:100%; max-width:1000px;
+      display:flex; flex-direction:column; align-items:center;
     }
-
     header {
-      text-align: center; margin-bottom: 50px;
-      opacity: 0; animation: fadeDown 1s cubic-bezier(0.23,1,0.32,1) forwards;
+      text-align:center; margin-bottom:50px;
+      opacity:0; animation:fadeDown 1s cubic-bezier(0.23,1,0.32,1) forwards;
     }
     @keyframes fadeDown {
-      from { opacity:0; transform:translateY(-30px); }
-      to   { opacity:1; transform:translateY(0); }
+      from{opacity:0;transform:translateY(-30px)} to{opacity:1;transform:translateY(0)}
     }
     header h1 {
-      font-size: 46px; font-weight: 700; margin-bottom: 10px;
-      background: linear-gradient(to right, #ffffff, #a5b4fc);
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent; letter-spacing: -1px;
+      font-size:46px; font-weight:700; margin-bottom:10px;
+      background:linear-gradient(to right,#ffffff,#a5b4fc);
+      -webkit-background-clip:text; background-clip:text;
+      -webkit-text-fill-color:transparent; letter-spacing:-1px;
     }
-    header p { font-size: 18px; color: #94a3b8; font-weight: 300; }
+    header p { font-size:18px; color:#94a3b8; font-weight:300; }
 
-    /* ── BUILDING CARDS ── */
     .grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px; width: 100%;
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:25px; width:100%;
     }
     .card {
-      position: relative; background: rgba(255,255,255,0.03);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.08); border-radius: 24px;
-      padding: 30px 25px; cursor: pointer;
-      display: flex; flex-direction: column; align-items: flex-start;
-      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
-      overflow: hidden; opacity: 0; transform: translateY(40px);
-      animation: fadeInUp 0.8s cubic-bezier(0.23,1,0.32,1) forwards;
+      position:relative; background:rgba(255,255,255,0.03);
+      backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,0.08); border-radius:24px; padding:30px 25px;
+      cursor:pointer; display:flex; flex-direction:column; align-items:flex-start;
+      transition:all 0.4s cubic-bezier(0.23,1,0.32,1); overflow:hidden;
+      opacity:0; transform:translateY(40px);
+      animation:fadeInUp 0.8s cubic-bezier(0.23,1,0.32,1) forwards;
     }
-    @keyframes fadeInUp { to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeInUp { to{opacity:1;transform:translateY(0)} }
     .card::before {
       content:''; position:absolute; inset:0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+      background:linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0));
       opacity:0; transition:opacity 0.4s ease; z-index:1;
     }
     .card:hover { transform:translateY(-8px) scale(1.02); border-color:rgba(255,255,255,0.2); box-shadow:0 20px 40px rgba(0,0,0,0.4),0 0 20px rgba(79,172,254,0.2); }
     .card:hover::before { opacity:1; }
     .icon-wrap {
       width:60px; height:60px; border-radius:16px; background:rgba(255,255,255,0.05);
-      display:flex; justify-content:center; align-items:center;
-      font-size:28px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.1);
-      transition:all 0.4s ease; position:relative; z-index:2;
+      display:flex; justify-content:center; align-items:center; font-size:28px; margin-bottom:20px;
+      border:1px solid rgba(255,255,255,0.1); transition:all 0.4s ease; position:relative; z-index:2;
     }
     .card:hover .icon-wrap { background:linear-gradient(135deg,#4facfe,#00f2fe); transform:scale(1.1) rotate(-5deg); border-color:transparent; box-shadow:0 10px 20px rgba(0,242,254,0.3); }
     .card h3 { font-size:24px; font-weight:600; margin-bottom:8px; color:#f8fafc; position:relative; z-index:2; }
     .card p  { font-size:14px; color:#cbd5e1; font-weight:300; line-height:1.4; position:relative; z-index:2; }
     .particle { position:absolute; border-radius:50%; background:white; opacity:0.1; pointer-events:none; animation:floatUp infinite linear; }
     @keyframes floatUp {
-      from{ transform:translateY(100vh) scale(0.5); opacity:0; }
-      10%  { opacity:0.2; } 90% { opacity:0.2; }
-      to   { transform:translateY(-100px) scale(1.5); opacity:0; }
+      from{transform:translateY(100vh) scale(0.5);opacity:0}
+      10%{opacity:0.2} 90%{opacity:0.2}
+      to{transform:translateY(-100px) scale(1.5);opacity:0}
     }
 
-    /* ══════════════════════════════════
+    /* ══════════════════════════════
        ARRIVAL OVERLAY
-    ══════════════════════════════════ */
+    ══════════════════════════════ */
     #arrival-overlay {
-      display: none;
-      position: fixed; inset: 0; z-index: 1000;
-      background: rgba(10,15,30,0.92);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      align-items: center; justify-content: center; padding: 24px;
+      display:none; position:fixed; inset:0; z-index:1000;
+      background:rgba(10,15,30,0.92);
+      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      align-items:center; justify-content:center; padding:24px;
     }
-    #arrival-overlay.visible { display: flex; }
+    #arrival-overlay.visible { display:flex; }
 
     .arrival-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 28px; padding: 40px 32px 32px;
-      max-width: 380px; width: 100%; text-align: center;
-      position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-      animation: cardPop 0.45s cubic-bezier(0.23,1,0.32,1) forwards;
+      background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12);
+      border-radius:28px; padding:40px 32px 32px; max-width:380px; width:100%;
+      text-align:center; position:relative; box-shadow:0 30px 80px rgba(0,0,0,0.5);
+      animation:cardPop 0.45s cubic-bezier(0.23,1,0.32,1) forwards;
+      max-height:90vh; overflow-y:auto;
     }
     @keyframes cardPop {
-      from { transform:scale(0.9) translateY(20px); opacity:0; }
-      to   { transform:scale(1) translateY(0);      opacity:1; }
+      from{transform:scale(0.9) translateY(20px);opacity:0}
+      to{transform:scale(1) translateY(0);opacity:1}
     }
-
     .arrival-close {
       position:absolute; top:16px; right:18px;
       background:none; border:none; color:#64748b;
@@ -122,25 +108,21 @@
     }
     .arrival-close:hover { color:#fff; }
 
-    .arrival-icon { font-size:52px; margin-bottom:12px; }
+    .arrival-icon   { font-size:52px; margin-bottom:12px; }
     .arrival-card h2 { font-size:22px; font-weight:700; color:#fff; margin-bottom:6px; }
-    .arrival-subtitle { font-size:14px; color:#94a3b8; font-weight:300; margin-bottom:24px; }
+    .arrival-subtitle { font-size:14px; color:#94a3b8; font-weight:300; margin-bottom:20px; }
 
-    /* GPS status pill */
+    /* GPS pill */
     .gps-status {
       display:inline-flex; align-items:center; gap:7px;
       background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
-      border-radius:20px; padding:6px 14px;
-      font-size:12px; color:#94a3b8; margin-bottom:24px;
+      border-radius:20px; padding:6px 14px; font-size:12px; color:#94a3b8; margin-bottom:20px;
     }
-    .gps-dot {
-      width:8px; height:8px; border-radius:50%; background:#64748b; transition:background 0.4s;
-    }
+    .gps-dot { width:8px; height:8px; border-radius:50%; background:#64748b; transition:background 0.4s; }
     .gps-dot.active { background:#10b981; box-shadow:0 0 8px #10b981; animation:gpsPulse 1.5s infinite; }
     .gps-dot.error  { background:#ef4444; }
     @keyframes gpsPulse {
-      0%,100%{ box-shadow:0 0 4px #10b981; }
-      50%    { box-shadow:0 0 12px #10b981, 0 0 20px rgba(16,185,129,0.3); }
+      0%,100%{box-shadow:0 0 4px #10b981} 50%{box-shadow:0 0 12px #10b981,0 0 20px rgba(16,185,129,0.3)}
     }
 
     /* Distance ring */
@@ -148,44 +130,76 @@
       width:120px; height:120px; border-radius:50%;
       border:3px solid rgba(115,103,240,0.3);
       display:flex; flex-direction:column; align-items:center; justify-content:center;
-      margin:0 auto 24px; position:relative; background:rgba(115,103,240,0.06);
+      margin:0 auto 20px; position:relative; background:rgba(115,103,240,0.06);
     }
     .distance-ring::before {
       content:''; position:absolute; inset:-8px; border-radius:50%;
-      border:2px solid transparent; border-top-color:#7367f0;
-      animation:spin 2s linear infinite;
+      border:2px solid transparent; border-top-color:#7367f0; animation:spin 2s linear infinite;
     }
-    @keyframes spin { to { transform:rotate(360deg); } }
+    @keyframes spin { to{transform:rotate(360deg)} }
     .distance-ring.arrived { border-color:rgba(16,185,129,0.5); background:rgba(16,185,129,0.08); }
     .distance-ring.arrived::before { border-top-color:#10b981; }
     .distance-value { font-size:30px; font-weight:700; color:#a5b4fc; line-height:1; }
     .distance-ring.arrived .distance-value { color:#10b981; }
     .distance-label { font-size:11px; color:#64748b; margin-top:4px; }
 
-    /* Buttons */
-    .arrival-actions { display:flex; flex-direction:column; gap:12px; margin-top:4px; }
+    /* Action buttons */
+    .arrival-actions { display:flex; flex-direction:column; gap:10px; margin-top:4px; }
     .arrival-btn {
       width:100%; padding:14px; border-radius:50px; border:none;
-      font-size:15px; font-weight:600; cursor:pointer;
-      transition:all 0.25s ease;
-      display:flex; align-items:center; justify-content:center; gap:8px;
-      text-decoration:none;
+      font-size:15px; font-weight:600; cursor:pointer; transition:all 0.25s ease;
+      display:flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;
     }
-    .arrival-btn.primary {
-      background:linear-gradient(135deg,#7367f0,#4facfe);
-      color:#fff; box-shadow:0 8px 24px rgba(115,103,240,0.4);
-    }
-    .arrival-btn.primary:hover { transform:translateY(-2px); box-shadow:0 12px 28px rgba(115,103,240,0.5); }
-    .arrival-btn.secondary {
-      background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.8);
-    }
+    .arrival-btn.primary { background:linear-gradient(135deg,#7367f0,#4facfe); color:#fff; box-shadow:0 8px 24px rgba(115,103,240,0.4); }
+    .arrival-btn.primary:hover { transform:translateY(-2px); }
+    .arrival-btn.secondary { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.8); }
     .arrival-btn.secondary:hover { background:rgba(255,255,255,0.12); }
 
-    .arrival-note { font-size:11px; color:#475569; margin-top:16px; line-height:1.5; }
+    /* ── Notification permission section ── */
+    .notif-section { margin-top:14px; }
+    .notif-request-btn {
+      width:100%; padding:11px 16px; border-radius:12px;
+      background:rgba(99,102,241,0.12); border:1px dashed rgba(99,102,241,0.5);
+      color:#a5b4fc; font-size:13px; font-weight:600; cursor:pointer;
+      transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:6px;
+    }
+    .notif-request-btn:hover { background:rgba(99,102,241,0.25); }
+    .notif-ok {
+      padding:9px 14px; border-radius:10px;
+      background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3);
+      color:#6ee7b7; font-size:12px; text-align:center;
+    }
+    .notif-warn {
+      padding:9px 14px; border-radius:10px;
+      background:rgba(234,179,8,0.08); border:1px solid rgba(234,179,8,0.3);
+      color:#fbbf24; font-size:12px; text-align:center; line-height:1.5;
+    }
 
-    /* DEV: countdown */
+    /* ── Arrived in-page banner (fallback for iOS / no notification) ── */
+    #arrived-banner {
+      display:none;
+      margin-top:14px; padding:16px;
+      background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(5,150,105,0.2));
+      border:1px solid rgba(16,185,129,0.4);
+      border-radius:16px; text-align:center;
+      animation:bannerPop 0.4s cubic-bezier(0.23,1,0.32,1) forwards;
+    }
+    @keyframes bannerPop { from{transform:scale(0.95);opacity:0} to{transform:scale(1);opacity:1} }
+    #arrived-banner.show { display:block; }
+    .arrived-banner-title { font-size:18px; font-weight:700; color:#fff; margin-bottom:4px; }
+    .arrived-banner-sub   { font-size:12px; color:#6ee7b7; margin-bottom:12px; }
+    .arrived-banner-btn {
+      width:100%; padding:13px; border-radius:50px;
+      background:linear-gradient(135deg,#10b981,#059669);
+      border:none; color:#fff; font-size:14px; font-weight:700;
+      cursor:pointer; transition:all 0.2s;
+      box-shadow:0 6px 20px rgba(16,185,129,0.4);
+    }
+    .arrived-banner-btn:hover { transform:translateY(-1px); }
+
+    /* DEV countdown */
     .test-bar {
-      margin-top:16px; padding:10px 14px;
+      margin-top:14px; padding:10px 14px;
       background:rgba(234,179,8,0.08); border:1px dashed rgba(234,179,8,0.4);
       border-radius:12px; display:flex; align-items:center; justify-content:space-between; gap:10px;
     }
@@ -197,10 +211,7 @@
       display:flex; align-items:center; justify-content:center;
       animation:countPulse 1s ease infinite;
     }
-    @keyframes countPulse {
-      0%,100%{ transform:scale(1);    }
-      50%    { transform:scale(1.1);  }
-    }
+    @keyframes countPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
 
     /* ── MOBILE ── */
     @media (max-width:768px) {
@@ -273,10 +284,25 @@
         </button>
       </div>
 
-      <p class="arrival-note">
-        📡 CampusNav will notify you when you reach the building.<br>
-        Tap the notification to start indoor navigation.
-      </p>
+      <!-- Notification permission: tap to enable (required by Android & iOS) -->
+      <div class="notif-section" id="notif-section">
+        <!-- Default: show enable button -->
+        <button id="notif-btn" class="notif-request-btn" onclick="requestNotifPermission()">
+          🔔 Tap to enable arrival notification
+        </button>
+        <div id="notif-ok"     style="display:none" class="notif-ok">✅ Notification enabled — you'll be alerted on arrival</div>
+        <div id="notif-denied" style="display:none" class="notif-warn">⚠️ Notifications blocked. Use the "I'm already here" button on arrival.</div>
+        <div id="notif-ios"    style="display:none" class="notif-warn">📱 iOS tip: Add this app to your <strong>Home Screen</strong>, then re-enable notifications for reliable alerts.</div>
+      </div>
+
+      <!-- In-page arrived banner — shown when GPS detects arrival (works even on iOS without notifications) -->
+      <div id="arrived-banner">
+        <div class="arrived-banner-title">✅ You've arrived!</div>
+        <div class="arrived-banner-sub" id="arrived-banner-sub">Tap below to start indoor navigation</div>
+        <button class="arrived-banner-btn" onclick="skipToIndoor()">
+          🗺️ Start Indoor Navigation →
+        </button>
+      </div>
 
       <!-- DEV: auto countdown — remove before production -->
       <div class="test-bar">
@@ -290,7 +316,6 @@
     /* ══════════════════════════════════════════════════
        BUILDING REGISTRY
        ⚠️ Update lat/lng with your actual GPS coordinates.
-          Google Maps → long press on building → copy coords
     ══════════════════════════════════════════════════ */
     const BUILDINGS = {
       CSE:  { name:'CSE Department',       icon:'💻', lat:30.85985962965969, lng:75.86015712632643, radius:20 },
@@ -306,19 +331,29 @@
     let isArrived  = false;
     let swReg      = null;
 
-    /* ── Register Service Worker (handles notification click → opens map.html) ── */
+    /* ── Register Service Worker ── */
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
         .then(r => { swReg = r; })
-        .catch(e => console.warn('SW failed:', e));
+        .catch(e => console.warn('SW:', e));
     }
 
-    /* ── visibilitychange: if user manually switches back after arrival ── */
+    /* ── On page load: check if arrival was already detected (e.g. user returning from Maps tab) ── */
+    window.addEventListener('load', () => {
+      if (localStorage.getItem('campusnav_arrived') === '1') {
+        const key = localStorage.getItem('building');
+        if (key) { localStorage.removeItem('campusnav_arrived'); doNavigate(key); }
+      }
+      // Update notification button state if already granted/denied
+      refreshNotifUI();
+    });
+
+    /* ── visibilitychange: fires when user switches back from Maps tab ── */
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden && isArrived && activeBldg) doNavigate(activeBldg);
     });
 
-    /* ── Haversine distance in metres ── */
+    /* ── Haversine ── */
     function haversine(lat1,lng1,lat2,lng2){
       const R=6371000, r=d=>d*Math.PI/180;
       const dLat=r(lat2-lat1), dLng=r(lng2-lng1);
@@ -334,6 +369,7 @@
       activeBldg = key;
       isArrived  = false;
       localStorage.setItem('building', key);
+      localStorage.removeItem('campusnav_arrived');
 
       // Populate overlay
       document.getElementById('ov-icon').textContent     = b.icon;
@@ -342,73 +378,47 @@
       document.getElementById('dist-value').textContent  = '--';
       document.getElementById('dist-label').textContent  = 'meters away';
       document.getElementById('dist-ring').classList.remove('arrived');
+      document.getElementById('arrived-banner').classList.remove('show');
       document.getElementById('test-countdown').textContent = '5';
 
-      // Maps URL — opens in NEW TAB so browser URL stays on select.html
-      // (IMPORTANT: do NOT use window.location.href here — that replaces the page
-      //  and makes the notification click open Maps instead of our app)
+      // Maps URL — window.open keeps browser URL on select.html
       const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${b.lat},${b.lng}&travelmode=walking`;
       document.getElementById('maps-link').href = mapsUrl;
 
-      // Show overlay
       document.getElementById('arrival-overlay').classList.add('visible');
       setGpsStatus('acquiring', 'Acquiring GPS…');
+      refreshNotifUI();
 
-      // Request notification permission (browser prompt)
-      if ('Notification' in window && Notification.permission === 'default') {
-        Notification.requestPermission();
-      }
-
-      // Open Google Maps in a new browser tab
+      // Open Maps in a new tab (DO NOT use location.href — that breaks notification click)
       window.open(mapsUrl, '_blank');
 
-      // Start GPS geofence watch
       startGeofenceWatch(b);
-
-      // DEV: auto-simulate (remove in production)
-      startSimCountdown();
+      startSimCountdown(); // DEV only
     }
 
-    /* ── GPS geofence watch ── */
+    /* ── GPS watch ── */
     function startGeofenceWatch(building) {
       stopWatch();
-      if (!navigator.geolocation) {
-        setGpsStatus('error', 'GPS unavailable on this device');
-        return;
-      }
+      if (!navigator.geolocation) { setGpsStatus('error','GPS unavailable'); return; }
       watchId = navigator.geolocation.watchPosition(
         pos => {
-          const dist = Math.round(
-            haversine(pos.coords.latitude, pos.coords.longitude, building.lat, building.lng)
-          );
+          const dist = Math.round(haversine(pos.coords.latitude,pos.coords.longitude,building.lat,building.lng));
           updateDistance(dist);
-          if (dist <= building.radius && !isArrived) {
-            isArrived = true;
-            arrived(activeBldg);
-          }
+          if (dist <= building.radius && !isArrived) { isArrived = true; arrived(activeBldg); }
         },
         err => {
-          const m = { 1:'Location access denied', 2:'GPS unavailable', 3:'GPS timed out' };
-          setGpsStatus('error', m[err.code] || 'GPS error');
+          const m={1:'Location access denied',2:'GPS unavailable',3:'GPS timed out'};
+          setGpsStatus('error', m[err.code]||'GPS error');
         },
         { enableHighAccuracy:true, maximumAge:4000, timeout:15000 }
       );
     }
 
-    /* ── Update distance ring ── */
-    function updateDistance(metres) {
-      setGpsStatus('active', 'GPS locked ✓');
-      const ring  = document.getElementById('dist-ring');
-      const val   = document.getElementById('dist-value');
-      const label = document.getElementById('dist-label');
-      ring.classList.remove('arrived');
-      if (metres > 1000) {
-        val.textContent   = (metres/1000).toFixed(1)+' km';
-        label.textContent = 'away';
-      } else {
-        val.textContent   = metres;
-        label.textContent = 'meters away';
-      }
+    function updateDistance(m) {
+      setGpsStatus('active','GPS locked ✓');
+      document.getElementById('dist-ring').classList.remove('arrived');
+      document.getElementById('dist-value').textContent = m>1000 ? (m/1000).toFixed(1)+' km' : m;
+      document.getElementById('dist-label').textContent = m>1000 ? 'away' : 'meters away';
     }
 
     /* ── Arrived ── */
@@ -416,47 +426,50 @@
       stopWatch();
       if (navigator.vibrate) navigator.vibrate([200,100,200]);
 
-      // Update ring UI
-      const ring = document.getElementById('dist-ring');
-      ring.classList.add('arrived');
+      // Update ring
+      document.getElementById('dist-ring').classList.add('arrived');
       document.getElementById('dist-value').textContent  = '✓';
       document.getElementById('dist-label').textContent  = "You've arrived!";
       document.getElementById('ov-subtitle').textContent = 'Switching to indoor navigation…';
-      setGpsStatus('active', 'Inside building — handing off');
+      setGpsStatus('active','Inside building — handing off');
 
-      // Fire notification via Service Worker (works from background)
-      // Clicking the notification opens map.html directly via sw.js
+      // Store arrival flag (caught on page load if user comes back manually)
+      localStorage.setItem('campusnav_arrived', '1');
+      localStorage.setItem('building', key);
+
+      // Try SW notification first (Android Chrome + iOS PWA)
       fireArrivalNotification(key);
 
-      // If THIS tab is currently visible → navigate immediately (laptop/simulation case)
+      // Show in-page arrived banner — works ALWAYS, including iOS Safari in browser mode
+      const b = BUILDINGS[key] || {};
+      document.getElementById('arrived-banner-sub').textContent =
+        `You're at ${b.name}. Tap below to start indoor navigation.`;
+      document.getElementById('arrived-banner').classList.add('show');
+
+      // If tab is already visible (simulation / laptop), navigate automatically
       if (!document.hidden) {
-        doNavigate(key);
+        setTimeout(() => doNavigate(key), 2000); // 2s so user sees the banner
       }
-      // If hidden (Maps tab is in front) → user taps notification → sw.js opens map.html
+      // If hidden: visibilitychange OR notification click routes to map.html
     }
 
-    /* ── Fire SW notification — clicking it opens map.html ── */
+    /* ── SW-based notification (only reliable cross-app switch) ── */
     async function fireArrivalNotification(key) {
       if (!('Notification' in window) || Notification.permission !== 'granted') return;
       const b = BUILDINGS[key] || {};
-      localStorage.setItem('building', key);
-
       if (swReg) {
-        // Service Worker notification: notificationclick in sw.js → clients.openWindow('map.html')
-        // This is the ONLY reliable way to open a URL when a notification is tapped cross-app
         try {
           await swReg.update();
           swReg.showNotification("📍 You've arrived!", {
-            body:             `Tap to start indoor navigation at ${b.name}.`,
-            icon:             'icons/icon-192.png',
-            tag:              'campusnav-arrival',
+            body:               `Tap to start indoor navigation at ${b.name}.`,
+            icon:               'icons/icon-192.png',
+            tag:                'campusnav-arrival',
             requireInteraction: true,
-            data:             { building: key },
-            vibrate:          [200,100,200],
+            data:               { building: key },
+            vibrate:            [200,100,200],
           });
-        } catch(e) { console.warn('SW notification failed:', e); }
+        } catch(e) { console.warn('SW notif failed:', e); }
       } else {
-        // Fallback plain notification
         const n = new Notification("📍 You've arrived!", {
           body: `Tap to start indoor navigation at ${b.name}.`,
           requireInteraction: true,
@@ -465,16 +478,54 @@
       }
     }
 
-    /* ── "I'm already here" ── */
+    /* ── NOTIFICATION PERMISSION — called DIRECTLY from button onclick ──
+       iOS and Android require this to be a direct user gesture, no async wrapper */
+    function requestNotifPermission() {
+      if (!('Notification' in window)) {
+        showNotifIosHint(); return;
+      }
+      if (Notification.permission === 'granted') { refreshNotifUI(); return; }
+
+      // On iOS Safari in browser mode, this will fail silently or show briefly.
+      // The in-page banner is our reliable iOS fallback.
+      Notification.requestPermission().then(p => { refreshNotifUI(); });
+    }
+
+    function refreshNotifUI() {
+      const btn     = document.getElementById('notif-btn');
+      const ok      = document.getElementById('notif-ok');
+      const denied  = document.getElementById('notif-denied');
+      const iosHint = document.getElementById('notif-ios');
+
+      if (!('Notification' in window)) {
+        // iOS Safari browser mode — no notification API
+        btn.style.display    = 'none';
+        ok.style.display     = 'none';
+        denied.style.display = 'none';
+        iosHint.style.display = 'block';
+        return;
+      }
+      btn.style.display     = Notification.permission === 'default'  ? 'flex' : 'none';
+      ok.style.display      = Notification.permission === 'granted'  ? 'block' : 'none';
+      denied.style.display  = Notification.permission === 'denied'   ? 'block' : 'none';
+      iosHint.style.display = 'none';
+    }
+
+    function showNotifIosHint() {
+      document.getElementById('notif-btn').style.display     = 'none';
+      document.getElementById('notif-ios').style.display     = 'block';
+    }
+
+    /* ── Skip ── */
     function skipToIndoor() {
-      stopWatch();
-      isArrived = true;
+      stopWatch(); isArrived = true;
       doNavigate(activeBldg);
     }
 
-    /* ── Navigate to map.html ── */
+    /* ── Navigate ── */
     function doNavigate(key) {
       localStorage.setItem('building', key);
+      localStorage.removeItem('campusnav_arrived');
       document.body.style.transition = 'opacity 0.5s ease';
       document.body.style.opacity    = '0';
       setTimeout(() => window.location.replace('map.html'), 500);
@@ -482,31 +533,23 @@
 
     /* ── Close overlay ── */
     function closeOverlay() {
-      stopWatch();
-      activeBldg = null;
-      isArrived  = false;
+      stopWatch(); activeBldg=null; isArrived=false;
       clearTimeout(simTimer);
       document.getElementById('arrival-overlay').classList.remove('visible');
     }
 
-    /* ── Stop GPS ── */
     function stopWatch() {
-      if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
+      if (watchId!==null) { navigator.geolocation.clearWatch(watchId); watchId=null; }
     }
-
-    /* ── GPS pill helper ── */
     function setGpsStatus(state, text) {
-      const dot  = document.getElementById('gps-dot');
-      const span = document.getElementById('gps-text');
-      dot.className    = 'gps-dot' + (state==='active'?' active': state==='error'?' error':'');
-      span.textContent = text;
+      document.getElementById('gps-dot').className = 'gps-dot'+(state==='active'?' active':state==='error'?' error':'');
+      document.getElementById('gps-text').textContent = text;
     }
 
-    /* ══════════════════════════════════════
-       DEV: AUTO SIMULATION — remove before production
-    ══════════════════════════════════════ */
+    /* ══════════════════════════════════
+       DEV SIMULATION — remove before production
+    ══════════════════════════════════ */
     let simTimer = null;
-
     function startSimCountdown() {
       clearTimeout(simTimer);
       let count = 5;
@@ -514,41 +557,32 @@
       if (el) el.textContent = count;
       const tick = setInterval(() => {
         count--;
-        if (el) el.textContent = count <= 0 ? '🚀' : count;
-        if (count <= 0) { clearInterval(tick); simulateWalk(); }
+        if (el) el.textContent = count<=0 ? '🚀' : count;
+        if (count<=0) { clearInterval(tick); simulateWalk(); }
       }, 1000);
     }
-
     function simulateWalk() {
       if (!activeBldg || isArrived) return;
-      const steps = [320, 180, 80, 35, 12, 6];
-      let i = 0;
-      setGpsStatus('active', 'GPS locked ✓');
+      const steps = [320,180,80,35,12,6];
+      let i=0;
+      setGpsStatus('active','GPS locked ✓');
       const walk = setInterval(() => {
-        updateDistance(steps[i]);
-        i++;
-        if (i >= steps.length) {
+        updateDistance(steps[i]); i++;
+        if (i>=steps.length) {
           clearInterval(walk);
-          setTimeout(() => {
-            if (!isArrived) { isArrived = true; arrived(activeBldg); }
-          }, 300);
+          setTimeout(() => { if (!isArrived) { isArrived=true; arrived(activeBldg); } }, 300);
         }
       }, 400);
     }
 
-    /* ── Floating particles ── */
+    /* ── Particles ── */
     const pc = document.getElementById('particles');
-    for (let i = 0; i < 20; i++) {
-      const p = document.createElement('div');
-      p.classList.add('particle');
-      const s = Math.random()*4+2;
-      p.style.width  = s+'px'; p.style.height = s+'px';
-      p.style.left   = Math.random()*100+'vw';
-      p.style.animationDuration = (Math.random()*10+10)+'s';
-      p.style.animationDelay    = (Math.random()*5)+'s';
+    for (let i=0;i<20;i++){
+      const p=document.createElement('div'); p.classList.add('particle');
+      const s=Math.random()*4+2;
+      p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}vw;animation-duration:${Math.random()*10+10}s;animation-delay:${Math.random()*5}s`;
       pc.appendChild(p);
     }
   </script>
-
 </body>
 </html>
